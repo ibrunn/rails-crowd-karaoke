@@ -1,0 +1,2 @@
+class GenreVotesController < ApplicationController
+end

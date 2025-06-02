@@ -53,6 +53,7 @@ gem "sassc-rails"
 
 # project crowd-karaoke
 gem "ostruct"
+gem "rqrcode"
 
 group :development, :test do
   gem "dotenv-rails"
