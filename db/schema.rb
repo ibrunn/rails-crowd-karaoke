@@ -10,19 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_06_02_154323) do
+ActiveRecord::Schema[7.1].define(version: 2025_06_03_105402) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "genre_votes", force: :cascade do |t|
     t.bigint "guest_id", null: false
     t.bigint "genre_id", null: false
-    t.bigint "session_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["genre_id"], name: "index_genre_votes_on_genre_id"
     t.index ["guest_id"], name: "index_genre_votes_on_guest_id"
-    t.index ["session_id"], name: "index_genre_votes_on_session_id"
   end
 
   create_table "genres", force: :cascade do |t|
@@ -39,6 +37,15 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_02_154323) do
     t.index ["session_id"], name: "index_guests_on_session_id"
   end
 
+  create_table "session_songs", force: :cascade do |t|
+    t.bigint "session_id", null: false
+    t.bigint "song_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["session_id"], name: "index_session_songs_on_session_id"
+    t.index ["song_id"], name: "index_session_songs_on_song_id"
+  end
+
   create_table "sessions", force: :cascade do |t|
     t.string "uuid"
     t.bigint "user_id", null: false
@@ -49,14 +56,12 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_02_154323) do
 
   create_table "song_votes", force: :cascade do |t|
     t.bigint "guest_id", null: false
-    t.bigint "song_id", null: false
     t.integer "votes_count"
-    t.bigint "session_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "session_song_id", null: false
     t.index ["guest_id"], name: "index_song_votes_on_guest_id"
-    t.index ["session_id"], name: "index_song_votes_on_session_id"
-    t.index ["song_id"], name: "index_song_votes_on_song_id"
+    t.index ["session_song_id"], name: "index_song_votes_on_session_song_id"
   end
 
   create_table "songs", force: :cascade do |t|
@@ -86,11 +91,11 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_02_154323) do
 
   add_foreign_key "genre_votes", "genres"
   add_foreign_key "genre_votes", "guests"
-  add_foreign_key "genre_votes", "sessions"
   add_foreign_key "guests", "sessions"
+  add_foreign_key "session_songs", "sessions"
+  add_foreign_key "session_songs", "songs"
   add_foreign_key "sessions", "users"
   add_foreign_key "song_votes", "guests"
-  add_foreign_key "song_votes", "sessions"
-  add_foreign_key "song_votes", "songs"
+  add_foreign_key "song_votes", "session_songs"
   add_foreign_key "songs", "genres"
 end
