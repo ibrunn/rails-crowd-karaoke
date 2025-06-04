@@ -25,7 +25,6 @@ class GuestsController < ApplicationController
       redirect_to guest_destination_path
     else
       # Re-render form with validation errors
-      @session_name = @session.name || "Karaoke Session"
       @current_guest_count = @session.guests.count
       render :new, status: :unprocessable_entity
     end
@@ -42,6 +41,75 @@ class GuestsController < ApplicationController
     unless [0, 1].include?(@session.current_stage)
       redirect_to root_path, alert: "This session is not currently accepting new guests."
       return false
+    end
+
+    # Check if session has reached guest limit
+    if @session.guests.count >= 20 # Max guests
+      redirect_to root_path, alert: "This session is full."
+      return false
+    end
+
+    true
+  end
+
+  def guest_params
+    params.require(:guest).permit(:nickname)
+  end
+
+  def broadcast_guest_joined
+    # Update guest count and list on host's big screen
+    Turbo::StreamsChannel.broadcast_update_to(
+      "session_#{@session.uuid}_host",
+      target: "guest-list",
+      partial: "sessions/guest_list",
+      locals: { guests: @session.guests.order(:created_at) }
+    )
+
+    # Update guest count display
+    Turbo::StreamsChannel.broadcast_update_to(
+      "session_#{@session.uuid}_host",
+      target: "guest-count",
+      partial: "sessions/guest_count",
+      locals: { count: @session.guests.count }
+    )
+
+    # If this moves session from empty to having guests, enable start button
+    if @session.guests.count == 1 && @session.current_stage == 0
+      Turbo::StreamsChannel.broadcast_update_to(
+        "session_#{@session.uuid}_host",
+        target: "start-button",
+        partial: "sessions/start_button",
+        locals: { session: @session, can_start: true }
+      )
+    end
+  end
+
+  def guest_destination_path
+    # Route guest to current stage of the session
+    # Solves the Race Condition Problem
+    case @session.current_stage
+    when 0, 1
+      green_room_session_path(@session.uuid)
+    when 2
+      genre_start_session_path(@session.uuid)
+    when 3
+      session_path(@session.uuid) # Will show genre voting
+    when 3.5
+      genre_result_session_path(@session.uuid)
+    when 4
+      song_start_session_path(@session.uuid)
+    when 5
+      session_path(@session.uuid) # Will show song voting
+    when 5.5
+      song_result_session_path(@session.uuid)
+    when 6
+      sing_start_session_path(@session.uuid)
+    when 7
+      session_path(@session.uuid) # Will show karaoke
+    when 8
+      sing_end_session_path(@session.uuid)
+    else
+      green_room_session_path(@session.uuid)
     end
   end
 end
