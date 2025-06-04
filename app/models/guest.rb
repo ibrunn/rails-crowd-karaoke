@@ -1,7 +1,7 @@
 class Guest < ApplicationRecord
   belongs_to :session
-  has_many :song_votes
-  has_many :genre_votes
+  has_many :song_votes, dependent: :destroy
+  has_many :genre_votes, dependent: :destroy
 
   validates :nickname, presence: true,
     length: { in: 3..20 },
