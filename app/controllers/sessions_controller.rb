@@ -1,4 +1,6 @@
 class SessionsController < ApplicationController
+  before_action :authenticate_user!, except: [:show, :green_room, :genre_start, :genre_result,
+                                              :song_start, :song_result, :sing_start, :sing_end]
   before_action :set_session, only: [:show, :green_room, :genre_start, :genre_result,
                                      :song_start, :song_result, :sing_start, :sing_end]
   before_action :verify_host_or_guest, only: [:show, :green_room, :genre_start, :genre_result,
