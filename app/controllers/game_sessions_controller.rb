@@ -26,6 +26,9 @@ class GameSessionsController < ApplicationController
   def genre_result
   end
 
+  def song_votes
+  end
+
   def song_start
   end
 
