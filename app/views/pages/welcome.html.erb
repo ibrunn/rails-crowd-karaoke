@@ -1,14 +1,5 @@
-<h1>welcome page</h1>
+<h1>Crowd Karaoke</h1>
 
 <div class="container">
-
-<%= link_to "Log out", destroy_user_session_path, data: {turbo_method: :delete}, class: "dropdown-item" %>
-<%= button_to "create Session", sessions_path %>
-<%=  @generated_uuid%>
-<%= link_to "index", sessions_path %>
-
-<%= button_to "guests", guests_path %>
-
-
+  <%= button_to "Create new Game Session", sessions_path %>
 </div>
-create
