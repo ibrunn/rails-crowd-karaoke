@@ -10,4 +10,10 @@ class GenreVotesController < ApplicationController
     end
     ActionCable.server.broadcast("votes", data)
   end
+
+  def create
+  end
+
+  def new
+  end
 end

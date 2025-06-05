@@ -9,22 +9,25 @@ Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check
 
   get  "sessions/:uuid", to: "sessions#show", as: :session_by_uuid
-  post "sessions" , to: "sessions#create"
+  post "sessions", to: "sessions#create"
   # Defines the root path route ("/")
   # root "posts#index"
-  
-  # Host
-  get "/sessions/:uuid/genre_start", to: "sessions#genre_start"
-  get "/sessions/:uuid/genres_result", to: "sessions#genre_result"
-  get "/sessions/:uuid/song_start", to: "sessions#song_start"
-  get "/sessions/:uuid/song_result", to: "sessions#song_result"
-  get "/sessions/:uuid/sing_start", to: "sessions#sing_start"
-  get "/sessions/:uuid/sing_end", to: "sessions#sing_end"
-  get "/sessions/:uuid/green_room", to: "sessions#green_room"
 
-  post "/sessions/:uuid/genre_votes", to: "sessions#create"
+  # Host
+  get "/sessions/:uuid/genre_start", to: "game_sessions#genre_start"
+  get "/sessions/:uuid/genre_result", to: "game_sessions#genre_result"
+  get "/sessions/:uuid/song_votes", to: "game_sessions#song_votes"
+  get "/sessions/:uuid/song_start", to: "game_sessions#song_start"
+  get "/sessions/:uuid/song_result", to: "game_sessions#song_result"
+  get "/sessions/:uuid/sing_start", to: "game_sessions#sing_start"
+  get "/sessions/:uuid/sing_end", to: "game_sessions#sing_end"
+  get "/sessions/:uuid/green_room", to: "game_sessions#green_room"
+
+  post "/sessions", to: "game_sessions#create"
+  post "/sessions/:uuid/genre_votes", to: "game_sessions#create"
 
   # Guests
   resources :guests
-  
+  get "/sessions/:uuid/genre_votes", to: "genre_votes#new"
+  post "/sessions/:uuid/genre_votes", to: "genre_votes#create"
 end
