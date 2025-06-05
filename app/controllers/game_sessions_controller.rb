@@ -20,14 +20,14 @@ class GameSessionsController < ApplicationController
 
   def show
 
-
       @session = GameSession.find_by!(uuid: params[:uuid])
 
           #   full_url = session_by_uuid_url(@session.uuid)
     #   @qr = RQRCode::QRCode.new(full_url)
     #
     # Here, we’ll encode only the raw UUID:
-    @qr = RQRCode::QRCode.new(@session.uuid)
+
+    @qr = RQRCode::QRCode.new("https://crowd-karaoke-8f21f5696c65.herokuapp.com/#{@session.uuid}/guests/new")
     # In your view, you can now safely do: <%= @session.uuid %>
   end
 
