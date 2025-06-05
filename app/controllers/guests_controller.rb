@@ -60,7 +60,7 @@ class GuestsController < ApplicationController
       "game_session_#{@session.uuid}_host",
       target: "guest-list",
       partial: "game_sessions/guest_list",
-      locals: { guests: @session.guests.order(:created_at) }
+      locals: { session: @session }
     )
 
     # Update guest count display
@@ -68,7 +68,7 @@ class GuestsController < ApplicationController
       "game_session_#{@session.uuid}_host",
       target: "guest-count",
       partial: "game_sessions/guest_count",
-      locals: { count: @session.guests.count }
+      locals: { session: @session }
     )
 
     # If this moves session from empty to having guests, enable start button
