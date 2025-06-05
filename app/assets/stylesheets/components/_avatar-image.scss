@@ -1,0 +1,32 @@
+.avatar-image{
+
+  background-color: #edf3f7;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: #d0d0d0 1px solid;
+
+}
+
+.avatar-list ul  {
+list-style-type: none;
+
+}
+
+.avatar-list ul li div {
+
+
+  display: inline-block;
+  text-align: center;
+  padding: 10px;
+  text-decoration: none;
+
+}
+
+
+.avatar-list  li {
+  list-style-type: none;
+  float: right;
+  margin-right: -16px;
+
+}

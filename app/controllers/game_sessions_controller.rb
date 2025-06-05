@@ -1,3 +1,4 @@
+require "rqrcode"
 class GameSessionsController < ApplicationController
   before_action :authenticate_user!, except: [:show, :green_room, :genre_start, :genre_result,
                                               :song_start, :song_result, :sing_start, :sing_end]
@@ -7,14 +8,27 @@ class GameSessionsController < ApplicationController
                                               :song_start, :song_result, :sing_start, :sing_end]
 
   def create
-    @session = GameSession.create
-    @session.user = current_user
-    @session.save
+  @session = current_user.game_sessions.new(current_stage: 0)
+
+  if @session.save
     redirect_to session_by_uuid_path(@session.uuid)
+  else
+    flash[:alert] = @session.errors.full_messages.to_sentence
+    redirect_to root_path
+  end
   end
 
   def show
-    @session = GameSession.find_by!(uuid: params[:uuid])
+
+
+      @session = GameSession.find_by!(uuid: params[:uuid])
+
+          #   full_url = session_by_uuid_url(@session.uuid)
+    #   @qr = RQRCode::QRCode.new(full_url)
+    #
+    # Here, we’ll encode only the raw UUID:
+    @qr = RQRCode::QRCode.new(@session.uuid)
+    # In your view, you can now safely do: <%= @session.uuid %>
   end
 
   def genre_start
