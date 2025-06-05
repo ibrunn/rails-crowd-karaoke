@@ -1,13 +1,7 @@
 <div class="container">
   <h1>Welcome to Crowd Karaoke</h1>
   <p> A big-screen, AI-moderated karaoke party game that transforms any gathering into a joyful, all-in crowd sing-along</p>
-
-  <%= link_to "Log out", destroy_user_session_path, data: {turbo_method: :delete}, class: "dropdown-item" %>
-  <%= button_to "Create session", sessions_path, class: "goto_bt" %>
-  <%=  @generated_uuid%>
-  <%= link_to "index", sessions_path %>
-
-  <%= button_to "guests", guests_path %>
-
+  
+  <%= button_to "Create session", create_session_path, class: "goto_bt" %>
 
 </div>
