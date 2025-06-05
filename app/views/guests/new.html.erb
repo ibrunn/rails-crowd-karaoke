@@ -1,0 +1,18 @@
+<div class="container">
+
+<h1>Welcome Stranger!</h1>
+<p>Please tell us your nickname to join!</p>
+
+<%= form_with model: @guest,
+              url: create_guest_path,
+              local: true,
+              class: "needs-validation",
+              novalidate: true do |form| %>
+  <%= form.text_field :nickname,
+                      class: "form-control form-control-lg",
+                      placeholder: "Enter your nickname",
+                      required: true %>
+  <%= form.submit "Submit", class: "btn btn-primary btn-lg" %>
+<% end %>
+
+</div>

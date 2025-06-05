@@ -8,36 +8,28 @@ class GameSessionsController < ApplicationController
                                               :song_start, :song_result, :sing_start, :sing_end]
 
   def create
-  @session = current_user.game_sessions.new(current_stage: 0)
-
-  if @session.save
-    redirect_to session_by_uuid_path(@session.uuid)
-  else
-    flash[:alert] = @session.errors.full_messages.to_sentence
-    redirect_to root_path
-  end
+    @session = GameSession.create(current_stage: 0, user: current_user)
+    redirect_to green_room_host_path(@session.uuid)
   end
 
   def show
+    public_url = "https://crowd-karaoke-8f21f5696c65.herokuapp.com/"
+    @qr = RQRCode::QRCode.new("#{public_url}#{@session.uuid}/guests/new")
+  end
 
-      @session = GameSession.find_by!(uuid: params[:uuid])
-
-          #   full_url = session_by_uuid_url(@session.uuid)
-    #   @qr = RQRCode::QRCode.new(full_url)
-    #
-    # Here, we’ll encode only the raw UUID:
-
-    @qr = RQRCode::QRCode.new("https://crowd-karaoke-8f21f5696c65.herokuapp.com/#{@session.uuid}/guests/new")
-    # In your view, you can now safely do: <%= @session.uuid %>
+  def green_room
   end
 
   def genre_start
   end
 
+  def genre_votes
+  end
+
   def genre_result
   end
 
-  def genre_votes
+  def song_votes
   end
 
   def song_start
@@ -52,8 +44,6 @@ class GameSessionsController < ApplicationController
   def sing_end
   end
 
-  def green_room
-  end
 
   private
 
@@ -64,7 +54,6 @@ class GameSessionsController < ApplicationController
   def verify_host_or_guest
     is_host = @session.user == current_user
     is_guest = current_guest_for_session
-
     redirect_to root_path unless is_host || is_guest
   end
 
