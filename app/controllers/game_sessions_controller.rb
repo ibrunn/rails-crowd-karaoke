@@ -6,7 +6,40 @@ class GameSessionsController < ApplicationController
   before_action :verify_host_or_guest, only: [:show, :green_room, :genre_start, :genre_result,
                                               :song_start, :song_result, :sing_start, :sing_end]
 
+  def create
+    @session = GameSession.create
+    @session.user = current_user
+    @session.save
+    redirect_to session_by_uuid_path(@session.uuid)
+  end
 
+  def show
+    @session = GameSession.find_by!(uuid: params[:uuid])
+  end
+
+  def genre_start
+  end
+
+  def genre_result
+  end
+
+  def genre_votes
+  end
+
+  def song_start
+  end
+
+  def song_result
+  end
+
+  def sing_start
+  end
+
+  def sing_end
+  end
+
+  def green_room
+  end
 
   private
 
