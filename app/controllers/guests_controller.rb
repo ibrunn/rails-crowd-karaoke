@@ -6,7 +6,6 @@ class GuestsController < ApplicationController
   # This is where QR code scanning leads guests
   def new
     @guest = @session.guests.build
-    @current_guest_count = @session.guests.count
   end
 
   # POST /sessions/:uuid/guests
@@ -22,10 +21,9 @@ class GuestsController < ApplicationController
       broadcast_guest_joined
 
       # Redirect to appropriate stage based on current session stage
-      redirect_to guest_destination_path
+      redirect_to green_room_guest_path
     else
       # Re-render form with validation errors
-      @current_guest_count = @session.guests.count
       render :new, status: :unprocessable_entity
     end
   end
@@ -89,27 +87,27 @@ class GuestsController < ApplicationController
     # Solves the Race Condition Problem
     case @session.current_stage
     when 0, 1
-      green_room_session_path(@session.uuid)
+      green_room_guest_path(@session.uuid)
     when 2
-      genre_start_session_path(@session.uuid)
+      genre_start_path(@session.uuid)
     when 3
-      session_path(@session.uuid) # Will show genre voting
+      new_genre_votes_path(@session.uuid) # Will show genre voting
     when 3.5
-      genre_result_session_path(@session.uuid)
+      genre_result_guest_path(@session.uuid)
     when 4
-      song_start_session_path(@session.uuid)
+      song_start_path(@session.uuid)
     when 5
-      session_path(@session.uuid) # Will show song voting
+      new_song_votes_path(@session.uuid) # Will show song voting
     when 5.5
-      song_result_session_path(@session.uuid)
+      song_result_guest_path(@session.uuid)
     when 6
       sing_start_session_path(@session.uuid)
     when 7
-      session_path(@session.uuid) # Will show karaoke
+      sing_start_path(@session.uuid) # Will show karaoke
     when 8
-      sing_end_session_path(@session.uuid)
+      sing_end_path(@session.uuid)
     else
-      green_room_session_path(@session.uuid)
+      green_room_guest_path(@session.uuid)
     end
   end
 end
