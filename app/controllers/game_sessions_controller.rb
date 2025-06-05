@@ -48,7 +48,6 @@ class GameSessionsController < ApplicationController
   def verify_host_or_guest
     is_host = @session.user == current_user
     is_guest = current_guest_for_session
-
     redirect_to root_path unless is_host || is_guest
   end
 
