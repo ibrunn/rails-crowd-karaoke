@@ -1,3 +1,4 @@
+require "rqrcode"
 class GameSessionsController < ApplicationController
   before_action :authenticate_user!, except: [:show, :green_room, :genre_start, :genre_result,
                                               :song_start, :song_result, :sing_start, :sing_end]
@@ -12,6 +13,8 @@ class GameSessionsController < ApplicationController
   end
 
   def show
+    public_url = "https://crowd-karaoke-8f21f5696c65.herokuapp.com/"
+    @qr = RQRCode::QRCode.new("#{public_url}#{@session.uuid}/guests/new")
   end
 
   def green_room
