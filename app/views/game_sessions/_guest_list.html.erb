@@ -1,1 +1,17 @@
-<div id="guest-list"></div>
+<% session_obj = local_assigns[:session] || @session %>
+<% if session_obj && session_obj.respond_to?(:guests) && session_obj.guests.any? %>
+  <ul>
+    <% session_obj.guests.order(:created_at).each do |guest| %>
+      <li>
+        <div>
+          <%= guest.nickname.first.upcase %>
+        </div>
+        <span class="guest-name"><%= guest.nickname %></span>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <ul>
+    <li><div>?</div></li>
+  </ul>
+<% end %>

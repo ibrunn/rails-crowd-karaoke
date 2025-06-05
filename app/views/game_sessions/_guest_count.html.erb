@@ -1,1 +1,6 @@
-<div id="guest-count"></div>
+<% session_obj = local_assigns[:session] || @session %>
+<% if session_obj && session_obj.respond_to?(:guests) %>
+  <span class="ml-5"><%= pluralize(session_obj.guests.count, 'person') %> in the session now</span>
+<% else %>
+  <span class="ml-5">0 people in the session now</span>
+<% end %>

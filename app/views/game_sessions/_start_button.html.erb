@@ -1,1 +1,13 @@
-<div id="start-button"></div>
+<% session_obj = local_assigns[:session] || @session %>
+<% can_start = local_assigns[:can_start] || false %>
+
+<% if can_start %>
+  <%= button_to "START THE FUN",
+                genre_start_path(session_obj.uuid),
+                method: :get,
+                class: "btn btn-success btn-lg rounded-5" %>
+<% else %>
+  <button class="btn btn-outline-light btn-lg rounded-5" disabled>
+    Waiting for guests to join...
+  </button>
+<% end %>
