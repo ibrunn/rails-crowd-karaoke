@@ -2,6 +2,7 @@
 
 <div class="container text-center">
 
+
   <h1>Game Session</h1>
 
 
@@ -13,7 +14,7 @@
   <%# Generate an inline SVG from @qr: %>
 <div >
   <%= raw @qr.as_svg(
-        offset: 0,
+    offset: 0,
         color: "000",         # black modules
         shape_rendering: "crispEdges",
         module_size: 8,       # adjust to control overall size
@@ -29,6 +30,7 @@
 </div>
 
 
+<%= turbo_stream_from "game_session_#{@session.uuid}_host" %>
 
 <div id="start-button" class="mt-5">
   <%= render 'start_button', session: @session, can_start: @session.guests.any? %>
