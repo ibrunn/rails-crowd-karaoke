@@ -4,7 +4,7 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-  has_many :sessions, dependent: :destroy
+  has_many :game_sessions, dependent: :destroy
 
   validates :name, presence: true,
             length: { maximum: 20 },

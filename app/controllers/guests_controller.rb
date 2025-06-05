@@ -2,14 +2,14 @@ class GuestsController < ApplicationController
   before_action :set_session, only: [:new, :create]
   before_action :verify_session_joinable, only: [:new, :create]
 
-  # GET /sessions/:session_uuid/guests/new
+  # GET /sessions/:uuid/guests/new
   # This is where QR code scanning leads guests
   def new
     @guest = @session.guests.build
     @current_guest_count = @session.guests.count
   end
 
-  # POST /sessions/:session_uuid/guests
+  # POST /sessions/:uuid/guests
   # Creates guest record and sets session cookie
   def create
     @guest = @session.guests.build(guest_params)
@@ -33,7 +33,7 @@ class GuestsController < ApplicationController
   private
 
   def set_session
-    @session = Session.find_by!(uuid: params[:session_uuid])
+    @session = GameSession.find_by!(uuid: params[:uuid])
   end
 
   def verify_session_joinable
@@ -59,26 +59,26 @@ class GuestsController < ApplicationController
   def broadcast_guest_joined
     # Update guest count and list on host's big screen
     Turbo::StreamsChannel.broadcast_update_to(
-      "session_#{@session.uuid}_host",
+      "game_session_#{@session.uuid}_host",
       target: "guest-list",
-      partial: "sessions/guest_list",
+      partial: "game_sessions/guest_list",
       locals: { guests: @session.guests.order(:created_at) }
     )
 
     # Update guest count display
     Turbo::StreamsChannel.broadcast_update_to(
-      "session_#{@session.uuid}_host",
+      "game_session_#{@session.uuid}_host",
       target: "guest-count",
-      partial: "sessions/guest_count",
+      partial: "game_sessions/guest_count",
       locals: { count: @session.guests.count }
     )
 
     # If this moves session from empty to having guests, enable start button
     if @session.guests.count == 1 && @session.current_stage == 0
       Turbo::StreamsChannel.broadcast_update_to(
-        "session_#{@session.uuid}_host",
+        "game_session_#{@session.uuid}_host",
         target: "start-button",
-        partial: "sessions/start_button",
+        partial: "game_sessions/start_button",
         locals: { session: @session, can_start: true }
       )
     end

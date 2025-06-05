@@ -10,9 +10,31 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_06_04_125110) do
+ActiveRecord::Schema[7.1].define(version: 2025_06_05_082717) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "game_session_songs", force: :cascade do |t|
+    t.bigint "game_session_id", null: false
+    t.bigint "song_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["game_session_id"], name: "index_game_session_songs_on_game_session_id"
+    t.index ["song_id"], name: "index_game_session_songs_on_song_id"
+  end
+
+  create_table "game_sessions", force: :cascade do |t|
+    t.string "uuid"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.decimal "current_stage", precision: 3, scale: 1, default: "0.0"
+    t.datetime "stage_started_at"
+    t.json "stage_data", default: {}
+    t.index ["current_stage"], name: "index_game_sessions_on_current_stage"
+    t.index ["stage_started_at"], name: "index_game_sessions_on_stage_started_at"
+    t.index ["user_id"], name: "index_game_sessions_on_user_id"
+  end
 
   create_table "genre_votes", force: :cascade do |t|
     t.bigint "guest_id", null: false
@@ -31,32 +53,10 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_04_125110) do
 
   create_table "guests", force: :cascade do |t|
     t.string "nickname"
-    t.bigint "session_id", null: false
+    t.bigint "game_session_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["session_id"], name: "index_guests_on_session_id"
-  end
-
-  create_table "session_songs", force: :cascade do |t|
-    t.bigint "session_id", null: false
-    t.bigint "song_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["session_id"], name: "index_session_songs_on_session_id"
-    t.index ["song_id"], name: "index_session_songs_on_song_id"
-  end
-
-  create_table "sessions", force: :cascade do |t|
-    t.string "uuid"
-    t.bigint "user_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.decimal "current_stage", precision: 3, scale: 1, default: "0.0"
-    t.datetime "stage_started_at"
-    t.json "stage_data", default: {}
-    t.index ["current_stage"], name: "index_sessions_on_current_stage"
-    t.index ["stage_started_at"], name: "index_sessions_on_stage_started_at"
-    t.index ["user_id"], name: "index_sessions_on_user_id"
+    t.index ["game_session_id"], name: "index_guests_on_game_session_id"
   end
 
   create_table "solid_cable_messages", force: :cascade do |t|
@@ -73,9 +73,9 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_04_125110) do
     t.integer "votes_count"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "session_song_id", null: false
+    t.bigint "game_session_song_id", null: false
+    t.index ["game_session_song_id"], name: "index_song_votes_on_game_session_song_id"
     t.index ["guest_id"], name: "index_song_votes_on_guest_id"
-    t.index ["session_song_id"], name: "index_song_votes_on_session_song_id"
   end
 
   create_table "songs", force: :cascade do |t|
@@ -103,13 +103,13 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_04_125110) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "game_session_songs", "game_sessions"
+  add_foreign_key "game_session_songs", "songs"
+  add_foreign_key "game_sessions", "users"
   add_foreign_key "genre_votes", "genres"
   add_foreign_key "genre_votes", "guests"
-  add_foreign_key "guests", "sessions"
-  add_foreign_key "session_songs", "sessions"
-  add_foreign_key "session_songs", "songs"
-  add_foreign_key "sessions", "users"
+  add_foreign_key "guests", "game_sessions"
+  add_foreign_key "song_votes", "game_session_songs"
   add_foreign_key "song_votes", "guests"
-  add_foreign_key "song_votes", "session_songs"
   add_foreign_key "songs", "genres"
 end

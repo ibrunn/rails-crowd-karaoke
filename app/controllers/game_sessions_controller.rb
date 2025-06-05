@@ -1,4 +1,4 @@
-class SessionsController < ApplicationController
+class GameSessionsController < ApplicationController
   before_action :authenticate_user!, except: [:show, :green_room, :genre_start, :genre_result,
                                               :song_start, :song_result, :sing_start, :sing_end]
   before_action :set_session, only: [:show, :green_room, :genre_start, :genre_result,
@@ -11,7 +11,7 @@ class SessionsController < ApplicationController
   private
 
   def set_session
-    @session = Session.find_by!(uuid: params[:uuid])
+    @session = GameSession.find_by!(uuid: params[:uuid])
   end
 
   def verify_host_or_guest
