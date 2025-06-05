@@ -54,6 +54,7 @@ gem "sassc-rails"
 # project crowd-karaoke
 gem "ostruct"
 gem "rqrcode"
+gem "solid_cable"
 
 group :development, :test do
   gem "dotenv-rails"
