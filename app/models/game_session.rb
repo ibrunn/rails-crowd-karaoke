@@ -11,7 +11,7 @@ class GameSession < ApplicationRecord
             inclusion: { in: [0, 1, 2, 3, 3.5, 4, 5, 5.5, 6, 7, 8] }
 
   before_create :generate_uuid
-  serialize :stage_data, JSON
+  # serialize :stage_data, JSON
 
 
   private
