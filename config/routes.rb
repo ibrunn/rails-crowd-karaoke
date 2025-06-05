@@ -8,30 +8,30 @@ Rails.application.routes.draw do
   # Stage 0 - Host Welcome Page
   root to: "pages#welcome"
   # Stage 0 - Host Create Session
-  post "/sessions", to: "game_sessions#create"
+  post "/sessions", to: "game_sessions#create", as: :create_session
   # Stage 1 - Host Green Room
-  get  "/sessions/:uuid", to: "game_sessions#show", as: :session_by_uuid
+  get  "/sessions/:uuid", to: "game_sessions#show", as: :green_room_host
   # Stage 1 - Guest Green Room / Join Game Session
-  get "/sessions/:uuid/guests/new", to: "guests#new"
-  post "/sessions/:uuid/guests", to: "guests#create"
-  get "/sessions/:uuid/green_room", to: "game_sessions#green_room"
+  get "/sessions/:uuid/guests/new", to: "guests#new", as: :new_guest
+  post "/sessions/:uuid/guests", to: "guests#create", as: :create_guest
+  get "/sessions/:uuid/green_room", to: "game_sessions#green_room", as: :green_room_guest
   # Stage 2 - Host+Guest Genre Intro
-  get "/sessions/:uuid/genre_start", to: "game_sessions#genre_start"
+  get "/sessions/:uuid/genre_start", to: "game_sessions#genre_start", as: :genre_start
   # Stage 3 - Guest Genre Voting
-  get "/sessions/:uuid/genre_votes/new", to: "genre_votes#new"
-  post "/sessions/:uuid/genre_votes", to: "genre_votes#create"
+  get "/sessions/:uuid/genre_votes/new", to: "genre_votes#new", as: :new_genre_votes
+  post "/sessions/:uuid/genre_votes", to: "genre_votes#create", as: :create_genre_votes
   # Stage 3.5 - Guest Genre Result
-  get "/sessions/:uuid/genre_result", to: "game_sessions#genre_result"
+  get "/sessions/:uuid/genre_result", to: "game_sessions#genre_result", as: :genre_result_guest
   # Stage 4 - Host+Guest Song Intro
-  get "/sessions/:uuid/song_start", to: "game_sessions#song_start"
+  get "/sessions/:uuid/song_start", to: "game_sessions#song_start", as: :song_start
   # Stage 5 - Guest Song Voting
-  get "/sessions/:uuid/song_votes/new", to: "song_votes#new"
-  post "/sessions/:uuid/song_votes", to: "song_votes#create"
+  get "/sessions/:uuid/song_votes/new", to: "song_votes#new", as: :new_song_votes
+  post "/sessions/:uuid/song_votes", to: "song_votes#create", as: :create_song_votes
   # Stage 5.5 - Guest Song Result
-  get "/sessions/:uuid/song_result", to: "game_sessions#song_result"
+  get "/sessions/:uuid/song_result", to: "game_sessions#song_result", as: :song_result_guest
   # Stage 6 - Host+Guest Sing Intro
-  get "/sessions/:uuid/sing_start", to: "game_sessions#sing_start"
+  get "/sessions/:uuid/sing_start", to: "game_sessions#sing_start", as: :sing_start
   # Stage 8 - Host+Guest Sing Outro
-  get "/sessions/:uuid/sing_end", to: "game_sessions#sing_end"
+  get "/sessions/:uuid/sing_end", to: "game_sessions#sing_end", as: :sing_end
 
 end
