@@ -3,14 +3,14 @@
   <div id="guests-box" class="overflow-auto">
     <% session_obj.guests.order(:created_at).each do |guest| %>
       <div class="">
-        <p style="font-size:16px; text-align:left;"><%= guest.nickname %></p>
+        <p class="guests-list-p"><%= guest.nickname %></p>
       </div>
     <% end %>
   </div>
 <% else %>
   <div id="guests-box" class="overflow-auto">
     <div class="">
-      <p style="font-size:16px; text-align:left;">People are joining...</p>
+      <p class="guests-list-p">People are joining...</p>
     </div>
   </div>
 <% end %>

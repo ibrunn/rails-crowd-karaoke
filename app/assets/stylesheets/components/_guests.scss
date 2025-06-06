@@ -1,3 +1,23 @@
 #guests-box {
   height:320px;
 }
+
+@include media-breakpoint-up(sm) {
+.guests-count-p{
+  text-align:left;
+}
+
+.guests-list-p{
+  font-size:16px;
+  text-align:left;
+}
+}
+
+.guests-count-p{
+    text-align:center;
+}
+
+.guests-list-p{
+    font-size:16px;
+    text-align:center;
+}
