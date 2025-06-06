@@ -1,4 +1,5 @@
 class GuestsController < ApplicationController
+  skip_before_action :authenticate_user!, only: :new
   before_action :set_session, only: [:new, :create]
   before_action :verify_session_joinable, only: [:new, :create]
 
