@@ -64,7 +64,7 @@ class GuestsController < ApplicationController
       locals: { session: @session }
     )
 
-    # Update guest count display
+    # Update guest count display on host's big screen
     Turbo::StreamsChannel.broadcast_update_to(
       "game_session_#{@session.uuid}_host",
       target: "guest-count",
@@ -72,7 +72,23 @@ class GuestsController < ApplicationController
       locals: { session: @session }
     )
 
-    # If this moves session from empty to having guests, enable start button
+    # Update guest count and list on guest's mobile devices
+    Turbo::StreamsChannel.broadcast_update_to(
+      "game_session_#{@session.uuid}_guest",
+      target: "guest-list",
+      partial: "game_sessions/guest_list",
+      locals: { session: @session }
+    )
+
+    # Update guest count display on guest's mobile devices
+    Turbo::StreamsChannel.broadcast_update_to(
+      "game_session_#{@session.uuid}_guest",
+      target: "guest-count",
+      partial: "game_sessions/guest_count",
+      locals: { session: @session }
+    )
+
+    # If this moves session from empty to having guests, enable start button on host's big screen
     if @session.guests.count == 1 && @session.current_stage == 0
       Turbo::StreamsChannel.broadcast_update_to(
         "game_session_#{@session.uuid}_host",

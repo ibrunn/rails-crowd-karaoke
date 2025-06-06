@@ -1,12 +1,13 @@
+<%= turbo_stream_from "game_session_#{@session.uuid}_host" if @session.user == current_user %>
+<%= turbo_stream_from "game_session_#{@session.uuid}_guests" if current_guest_for_session %>
+
 <div class="container">
 
   <h1>Green Room</h1>
 
-  <%= turbo_stream_from "game_session_#{@session.uuid}_host" if @session.user == current_user %>
-  <%= turbo_stream_from "game_session_#{@session.uuid}_guests" if current_guest_for_session %>
 
   <div class="mt-5">
-    
+
     <div class="text-start mt-1">
       <p id="guest-count" class="text-center">
         <%= render 'guest_count', session: @session %>
@@ -18,7 +19,7 @@
         <%= render 'guest_list', session: @session %>
       </p>
     </div>
-    
+
   </div>
-  
+
 </div>
