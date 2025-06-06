@@ -13,7 +13,7 @@ class GameSessionsController < ApplicationController
   end
 
   def show
-    public_url = "https://crowd-karaoke-8f21f5696c65.herokuapp.com/"
+    public_url = "https://crowd-karaoke-8f21f5696c65.herokuapp.com"
     @qr = RQRCode::QRCode.new("#{public_url}/sessions/#{@session.uuid}/guests/new")
   end
 
