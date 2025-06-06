@@ -4,16 +4,17 @@
 
 <%= turbo_stream_from "game_session_#{@session.uuid}_host" %>
 
-<div class="row mt-5">
-  <div class="col text-start">
-    <div id="guest-list">
-      <%= render 'guest_list', session: @session %>
-    </div>
-  </div>
-  <div class="col text-start mt-1">
-    <div id="guest-count">
+<div class="mt-5">
+  <div class="text-start mt-1">
+    <p id="guest-count" class="text-center">
       <%= render 'guest_count', session: @session %>
-    </div>
+    </p>
+  </div>
+
+  <div class="text-start">
+    <p id="guest-list" class="text-center">
+      <%= render 'guest_list', session: @session %>
+    </p>
   </div>
 </div>
 
