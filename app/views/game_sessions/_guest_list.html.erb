@@ -1,17 +1,16 @@
 <% session_obj = local_assigns[:session] || @session %>
 <% if session_obj && session_obj.respond_to?(:guests) && session_obj.guests.any? %>
-  <ul>
+  <div id="guests-box" class="overflow-auto">
     <% session_obj.guests.order(:created_at).each do |guest| %>
-      <li>
-        <div>
-          <%= guest.nickname.first.upcase %>
-        </div>
-        <span class="guest-name"><%= guest.nickname %></span>
-      </li>
+      <div class="">
+        <p style="font-size:16px; text-align:left;"><%= guest.nickname %></p>
+      </div>
     <% end %>
-  </ul>
+  </div>
 <% else %>
-  <ul>
-    <li><div>?</div></li>
-  </ul>
+  <div id="guests-box" class="overflow-auto">
+    <div class="">
+      <p style="font-size:16px; text-align:left;">People are joining...</p>
+    </div>
+  </div>
 <% end %>
