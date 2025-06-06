@@ -13,11 +13,11 @@
   <%# Generate an inline SVG from @qr: %>
   <div class="row">
   <div class="col offset-md-1 justify-content-end">
-    <%= raw @qr.as_svg(
-    offset: 0,
-        color: "#FFFFFF",         # black modules
+    <%= raw @qrcode.as_svg(
+        offset: 0,
+        color: :white,
         shape_rendering: "crispEdges",
-        module_size: 8,       # adjust to control overall size
+        module_size: 8,
         standalone: true
       ) %>
   </div>
