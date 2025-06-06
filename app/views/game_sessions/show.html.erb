@@ -1,3 +1,7 @@
+<%= turbo_stream_from "game_session_#{@session.uuid}_host" if @session.user == current_user %>
+<%= turbo_stream_from "game_session_#{@session.uuid}_guests" if current_guest_for_session %>
+
+
 <!-- app/views/sessions/qr.html.erb -->
 
 <div class="container text-center">
@@ -45,8 +49,6 @@
 </div>
 -->
 
-
-  <%= turbo_stream_from "game_session_#{@session.uuid}_host" %>
 
   <div id="start-button" class="my-5 pb-5">
     <%= render 'start_button', session: @session, can_start: @session.guests.any?, style: "btn btn-outline-light goto_bt" %>
