@@ -1,11 +1,14 @@
 require "rqrcode"
 class GameSessionsController < ApplicationController
   before_action :authenticate_user!, except: [:green_room, :genre_start, :genre_result,
-                                              :song_start, :song_result, :sing_start, :sing_end]
+                                              :song_start, :song_result, :sing_start, :sing_end,
+                                              :start_game, :advance_to_stage]
   before_action :set_session, only: [:show, :green_room, :genre_start, :genre_result,
-                                     :song_start, :song_result, :sing_start, :sing_end]
+                                     :song_start, :song_result, :sing_start, :sing_end,
+                                     :start_game, :advance_to_stage]
   before_action :verify_host_or_guest, only: [:show, :green_room, :genre_start, :genre_result,
-                                              :song_start, :song_result, :sing_start, :sing_end]
+                                              :song_start, :song_result, :sing_start, :sing_end,
+                                              :start_game, :advance_to_stage]
 
   def create
     @session = GameSession.create(current_stage: 0, user: current_user)
@@ -43,15 +46,23 @@ class GameSessionsController < ApplicationController
 
 
   # STAGE PROGRESSION - Core Stage Management Methods
+
   # start_game method:
+  # - Only hosts should start games, not guests
   # - Validate current stage is 1
   # - Call advance_to_stage(2)
   # - Broadcast stage change via Turbo Streams
   def start_game
-    unless @session.current_stage == 1
-      redirect_to root_path(@session.uuid), alert: "Game not ready to start"
+    unless @session.user == current_user
+      redirect_to root_path, alert: "Only the host can start the game"
       return
     end
+
+    unless @session.current_stage == 1
+      redirect_to green_room_host_path(@session.uuid), alert: "Game not ready to start"
+      return
+    end
+
     advance_to_stage(2)
   end
 
@@ -61,6 +72,12 @@ class GameSessionsController < ApplicationController
   # - Broadcast updates to all connected users
   # - Handle redirects/renders appropriately
   def advance_to_stage(stage)
+    # Validation to prevent invalid stage transitions
+    unless valid_stage_transition?(@session.current_stage, stage)
+      redirect_to root_path, alert: "Invalid stage transition"
+      return false
+    end
+
     # Update current_stage and stage_started_at
     stage_data = @session.stage_data || {}
 
@@ -135,6 +152,24 @@ class GameSessionsController < ApplicationController
 
   def set_session
     @session = GameSession.find_by!(uuid: params[:uuid])
+  end
+
+  # Stage Transition Validation
+  def valid_stage_transition?(current_stage, new_stage)
+    valid_transitions = {
+      1 => [2],           # Green room → Genre start
+      2 => [3],           # Genre start → Genre voting
+      3 => [3.5],         # Genre voting → Genre result
+      3.5 => [4],         # Genre result → Song start
+      4 => [5],           # Song start → Song voting
+      5 => [5.5],         # Song voting → Song result
+      5.5 => [6],         # Song result → Sing start
+      6 => [7],           # Sing start → Singing
+      7 => [8],           # Singing → Sing end
+      8 => [1]            # Sing end → back to Green room
+    }
+
+    valid_transitions[current_stage]&.include?(new_stage)
   end
 
 end
