@@ -1,4 +1,5 @@
 <% session_obj = local_assigns[:session] || @session %>
+
 <% if session_obj && session_obj.respond_to?(:guests) && session_obj.guests.any? %>
   <div id="guests-box" class="overflow-auto">
     <% session_obj.guests.order(:created_at).each do |guest| %>
@@ -10,7 +11,7 @@
 <% else %>
   <div id="guests-box" class="overflow-auto">
     <div class="">
-      <p class="guests-list-p">People are joining...</p>
+      <p class="guests-list-p">Let's hear your artist name!</p>
     </div>
   </div>
 <% end %>

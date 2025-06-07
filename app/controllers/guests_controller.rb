@@ -59,7 +59,7 @@ class GuestsController < ApplicationController
     # Update guest count and list on host's big screen
     Turbo::StreamsChannel.broadcast_update_to(
       "game_session_#{@session.uuid}_host",
-      target: "guest-list",
+      target: "guest-list-host",
       partial: "game_sessions/guest_list",
       locals: { session: @session }
     )
@@ -67,10 +67,20 @@ class GuestsController < ApplicationController
     # Update guest count display on host's big screen
     Turbo::StreamsChannel.broadcast_update_to(
       "game_session_#{@session.uuid}_host",
-      target: "guest-count",
+      target: "guest-count-host",
       partial: "game_sessions/guest_count",
       locals: { session: @session }
     )
+
+    # If session moves from empty to having guests, enable start button on host's big screen
+    if @session.guests.count == 1 && @session.current_stage == 0
+      Turbo::StreamsChannel.broadcast_update_to(
+        "game_session_#{@session.uuid}_host",
+        target: "start-button-host",
+        partial: "game_sessions/start_button",
+        locals: { session: @session, can_start: true }
+      )
+    end
 
     # Update guest count and list on guest's mobile devices
     Turbo::StreamsChannel.broadcast_update_to(
@@ -88,15 +98,6 @@ class GuestsController < ApplicationController
       locals: { session: @session }
     )
 
-    # If this moves session from empty to having guests, enable start button on host's big screen
-    if @session.guests.count == 1 && @session.current_stage == 0
-      Turbo::StreamsChannel.broadcast_update_to(
-        "game_session_#{@session.uuid}_host",
-        target: "start-button",
-        partial: "game_sessions/start_button",
-        locals: { session: @session, can_start: true }
-      )
-    end
   end
 
   def guest_destination_path

@@ -1,8 +1,13 @@
+<!--
+  HOST
+  STAGE 1
+  get  "/sessions/:uuid", to: "game_sessions#show", as: :green_room_host
+  # green room for host, gets here after creating a new session
+  # previous page: welcome.html.erb
+  # next page: genre_start.html.erb
+ -->
+
 <%= turbo_stream_from "game_session_#{@session.uuid}_host" if @session.user == current_user %>
-<%= turbo_stream_from "game_session_#{@session.uuid}_guests" if current_guest_for_session %>
-
-
-<!-- app/views/sessions/qr.html.erb -->
 
 <div class="container text-center">
 
@@ -14,45 +19,47 @@
   </div>
   -->
 
-  <%# Generate an inline SVG from @qr: %>
+  <%# Generate an inline SVG from @qrcode: %>
   <div class="row">
-  <div class="col offset-md-1 justify-content-end">
-    <%= raw @qrcode.as_svg(
-        offset: 0,
-        color: :white,
-        shape_rendering: "crispEdges",
-        module_size: 8,
-        standalone: true
-      ) %>
+
+    <div class="col offset-md-1 justify-content-end">
+      <%= raw @qrcode.as_svg(
+          offset: 0,
+          color: :white,
+          shape_rendering: "crispEdges",
+          module_size: 8,
+          standalone: true
+        ) %>
+    </div>
+
+
+    <div class="col justify-content-start">
+
+      <div class="text-start">
+        <div id="guest-count-host">
+          <%= render 'guest_count', session: @session %>
+        </div>
+      </div>
+
+      <div class="text-start">
+        <div id="guest-list-host">
+          <%= render 'guest_list', session: @session %>
+        </div>
+      </div>
+
+    </div>
+
   </div>
 
-
-  <div class="col justify-content-start">
-    <div class="text-start">
-      <div id="guest-count">
-        <%= render 'guest_count', session: @session %>
-      </div>
-    </div>
-    <div class="text-start">
-      <div id="guest-list">
-        <%= render 'guest_list', session: @session %>
-      </div>
-    </div>
+  <!-- include shareable link here for people joining remotely
+  <div class="mt-3">
+    <strong>UUID:</strong>
+    <%= @session.uuid %>
   </div>
+  -->
 
-</div>
-
-<!-- The link
-<div class="mt-3">
-  <strong>UUID:</strong>
-  <%= @session.uuid %>
-</div>
--->
-
-
-  <div id="start-button" class="my-5 pb-5">
+  <div id="start-button-host" class="my-5 pb-5">
     <%= render 'start_button', session: @session, can_start: @session.guests.any?, style: "btn btn-outline-light goto_bt" %>
   </div>
-
 
 </div>

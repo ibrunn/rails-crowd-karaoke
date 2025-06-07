@@ -1,3 +1,16 @@
+<!--
+  HOST AND GUEST
+  STAGE 6
+  get "/sessions/:uuid/sing_start", to: "game_sessions#sing_start", as: :sing_start
+  # announcement for karaoke singing, host and guest get here after song result
+  # only host screen has buttons to jump off to Youtube and proceed to next stage
+  # previous page: song_result.html.erb
+  # next page: sing_end.html.erb
+ -->
+
+<%= turbo_stream_from "game_session_#{@session.uuid}_host" if @session.user == current_user %>
+<%= turbo_stream_from "game_session_#{@session.uuid}_guests" if current_guest_for_session %>
+
 <div class="container">
   <h1>Let’s sing</h1>
   <h1>Dancing Queen</h1>
