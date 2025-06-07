@@ -17,8 +17,8 @@
                     when 8.0 then 1.0
                     end %>
 
-    <%= form_with url: advance_stage_path(@session.uuid), method: :get do |f| %>
-      <%= f.hidden_field :stage, value: next_stage %>
+    <%= form_with url: advance_stage_path(@session.uuid, stage: next_stage), method: :get do |f| %>
+      <!-- <%= f.hidden_field :stage, value: next_stage %> -->
       <%= f.submit "Advance to Stage #{next_stage}", class: "btn btn-warning" %>
     <% end %>
   </div>

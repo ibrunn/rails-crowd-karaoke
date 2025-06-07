@@ -121,15 +121,17 @@ class GameSessionsController < ApplicationController
     # Broadcast stage change to all connected users
     Turbo::StreamsChannel.broadcast_update_to(
       "game_session_#{@session.uuid}_host",
-      target: "game-stage-host",
-      html: "Stage: #{stage}"
+      action: "append",
+      target: "body",
+      html: %(<script>window.location.href = "#{advance_stage_path(@session.uuid, stage: stage)}"</script>)
     )
 
     # Broadcast to guests as well
     Turbo::StreamsChannel.broadcast_update_to(
       "game_session_#{@session.uuid}_guests",
-      target: "game-stage-guest",
-      html: "Stage: #{stage}"
+      action: "append",
+      target: "body",
+      html: %(<script>window.location.href = "#{advance_stage_path(@session.uuid, stage: stage)}"</script>)
     )
 
     # Handle redirects/renders appropriately based on stage
@@ -176,11 +178,11 @@ class GameSessionsController < ApplicationController
       0.0 => [1.0],           # Welcome → Green room
       1.0 => [2.0],           # Green room → Genre start
       2.0 => [3.0],           # Genre start → Genre voting
-      3.0 => [3.5],         # Genre voting → Genre result
-      3.5 => [4.0],         # Genre result → Song start
+      3.0 => [3.5],           # Genre voting → Genre result
+      3.5 => [4.0],           # Genre result → Song start
       4.0 => [5.0],           # Song start → Song voting
-      5.0 => [5.5],         # Song voting → Song result
-      5.5 => [6.0],         # Song result → Sing start
+      5.0 => [5.5],           # Song voting → Song result
+      5.5 => [6.0],           # Song result → Sing start
       6.0 => [7.0],           # Sing start → Singing
       7.0 => [8.0],           # Singing → Sing end
       8.0 => [1.0]            # Sing end → back to Green room
