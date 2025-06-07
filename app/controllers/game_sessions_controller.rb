@@ -13,7 +13,7 @@ class GameSessionsController < ApplicationController
   def create
     @session = GameSession.create(user: current_user, current_stage: 0, stage_started_at: Time.current)
     # redirects to ../views/game_sessions/show.html.erb which is the green_room_host
-    advance_to_stage(1)
+    advance_to_stage(1.to_f)
   end
 
   def show
@@ -58,12 +58,12 @@ class GameSessionsController < ApplicationController
       return
     end
 
-    unless @session.current_stage == 1.to_f
+    unless @session.current_stage == 1.0
       redirect_to green_room_host_path(@session.uuid), alert: "Game not ready to start"
       return
     end
 
-    advance_to_stage(2)
+    advance_to_stage(2.to_f)
   end
 
   # advance_to_stage method:
@@ -137,10 +137,10 @@ class GameSessionsController < ApplicationController
       when 1 then green_room_host_path(@session.uuid)
       when 2 then genre_start_path(@session.uuid)
       when 3 then new_genre_votes_path(@session.uuid)
-      when 3.5 then genre_result_guest_path(@session.uuid)
+      when 3.5 then genre_result_path(@session.uuid)
       when 4 then song_start_path(@session.uuid)
       when 5 then new_song_votes_path(@session.uuid)
-      when 5.5 then song_result_guest_path(@session.uuid)
+      when 5.5 then song_result_path(@session.uuid)
       when 6 then sing_start_path(@session.uuid)
       when 8 then sing_end_path(@session.uuid)
     else
@@ -173,19 +173,20 @@ class GameSessionsController < ApplicationController
     puts "new_stage: #{new_stage.to_f.inspect} (#{new_stage.class})"
 
     valid_transitions = {
-      0 => [1],           # Welcome → Green room
-      1 => [2],           # Green room → Genre start
-      2 => [3],           # Genre start → Genre voting
-      3 => [3.5],         # Genre voting → Genre result
-      3.5 => [4],         # Genre result → Song start
-      4 => [5],           # Song start → Song voting
-      5 => [5.5],         # Song voting → Song result
-      5.5 => [6],         # Song result → Sing start
-      6 => [7],           # Sing start → Singing
-      7 => [8],           # Singing → Sing end
-      8 => [1]            # Sing end → back to Green room
+      0.0 => [1.0],           # Welcome → Green room
+      1.0 => [2.0],           # Green room → Genre start
+      2.0 => [3.0],           # Genre start → Genre voting
+      3.0 => [3.5],         # Genre voting → Genre result
+      3.5 => [4.0],         # Genre result → Song start
+      4.0 => [5.0],           # Song start → Song voting
+      5.0 => [5.5],         # Song voting → Song result
+      5.5 => [6.0],         # Song result → Sing start
+      6.0 => [7.0],           # Sing start → Singing
+      7.0 => [8.0],           # Singing → Sing end
+      8.0 => [1.0]            # Sing end → back to Green room
     }
-    valid_transitions[current_stage.to_f]&.include?(new_stage.to_f)
+
+    valid_transitions[current_stage]&.include?(new_stage)
   end
 
 end
