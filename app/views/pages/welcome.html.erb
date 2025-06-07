@@ -7,8 +7,6 @@
   # next page: ../game_sessions/show.html.erb
  -->
 
-<%= turbo_stream_from "game_session_#{@session.uuid}_host" if @session.user == current_user %>
-
 <div class="container">
 
   <h1>Welcome to Crowd Karaoke</h1>
