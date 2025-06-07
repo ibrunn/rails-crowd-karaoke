@@ -9,11 +9,14 @@ class GameSessionsController < ApplicationController
 
   def create
     @session = GameSession.create(current_stage: 0, user: current_user)
+    # redirects to ../views/game_sessions/show.html.erb which is the green_room_host
     redirect_to green_room_host_path(@session.uuid)
   end
 
   def show
+    # heroku url - to be changed when in production
     public_url = "https://crowd-karaoke-8f21f5696c65.herokuapp.com"
+    # utilizing rqrcode gem to generate QR code with session url
     @qrcode = RQRCode::QRCode.new("#{public_url}/sessions/#{@session.uuid}/guests/new", color: :white)
   end
 
@@ -100,14 +103,14 @@ def advance_to_stage(stage)
   # Broadcast stage change to all connected users
   Turbo::StreamsChannel.broadcast_update_to(
     "game_session_#{@session.uuid}_host",
-    target: "game-stage",
+    target: "game-stage-host",
     html: "Stage: #{stage}"
   )
 
   # Broadcast to guests as well
   Turbo::StreamsChannel.broadcast_update_to(
     "game_session_#{@session.uuid}_guests",
-    target: "game-stage",
+    target: "game-stage-guest",
     html: "Stage: #{stage}"
   )
 
@@ -122,7 +125,7 @@ def advance_to_stage(stage)
   when 6 then sing_start_path(@session.uuid)
   when 8 then sing_end_path(@session.uuid)
   else
-    root_path(@session.uuid)
+    root_path
   end
 
   # Respond appropriately - either redirect or render JSON

@@ -5,6 +5,7 @@
   # lets host create a new session, host gets here after signup/signin
   # previous page: devise signup/signin
   # next page: ../game_sessions/show.html.erb
+  post "/sessions", to: "game_sessions#create", as: :create_session
  -->
 
 <div class="container">

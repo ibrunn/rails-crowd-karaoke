@@ -3,13 +3,13 @@ class GuestsController < ApplicationController
   before_action :set_session, only: [:new, :create]
   before_action :verify_session_joinable, only: [:new, :create]
 
-  # GET /sessions/:uuid/guests/new
+  # get "/sessions/:uuid/guests/new", to: "guests#new", as: :new_guest
   # This is where QR code scanning leads guests
   def new
     @guest = @session.guests.build
   end
 
-  # POST /sessions/:uuid/guests
+  # post "/sessions/:uuid/guests", to: "guests#create", as: :create_guest
   # Creates guest record and sets session cookie
   def create
     @guest = @session.guests.build(guest_params)
@@ -21,8 +21,10 @@ class GuestsController < ApplicationController
       # Broadcast new guest to host's big screen
       broadcast_guest_joined
 
-      # Redirect to appropriate stage based on current session stage
-      redirect_to green_room_guest_path
+      # Route guest to current stage of the session
+      # Solves the Race Condition Problem
+      redirect_to guest_destination_path
+
     else
       # Re-render form with validation errors
       render :new, status: :unprocessable_entity
@@ -35,24 +37,26 @@ class GuestsController < ApplicationController
     @session = GameSession.find_by!(uuid: params[:uuid])
   end
 
+  def guest_params
+    params.require(:guest).permit(:nickname)
+  end
+
   def verify_session_joinable
     # Only allow joining during welcome (0) or green room (1) stages
     unless [0, 1].include?(@session.current_stage)
+      # backlog: redirect to not_joinable.html.erb with proper user feedback
       redirect_to root_path, alert: "This session is not currently accepting new guests."
       return false
     end
 
     # Check if session has reached guest limit
-    if @session.guests.count >= 20 # Max guests
+    if @session.guests.count >= 25 # Max guests
+      # backlog: redirect to not_joinable.html.erb with proper user feedback
       redirect_to root_path, alert: "This session is full."
       return false
     end
 
-    true
-  end
-
-  def guest_params
-    params.require(:guest).permit(:nickname)
+    return true
   end
 
   def broadcast_guest_joined
@@ -73,7 +77,7 @@ class GuestsController < ApplicationController
     )
 
     # If session moves from empty to having guests, enable start button on host's big screen
-    if @session.guests.count == 1 && @session.current_stage == 0
+    if @session.guests.count >= 1 && [0, 1].include?(@session.current_stage)
       Turbo::StreamsChannel.broadcast_update_to(
         "game_session_#{@session.uuid}_host",
         target: "start-button-host",
@@ -104,26 +108,16 @@ class GuestsController < ApplicationController
     # Route guest to current stage of the session
     # Solves the Race Condition Problem
     case @session.current_stage
-    when 0, 1
-      green_room_guest_path(@session.uuid)
-    when 2
-      genre_start_path(@session.uuid)
-    when 3
-      new_genre_votes_path(@session.uuid) # Will show genre voting
-    when 3.5
-      genre_result_guest_path(@session.uuid)
-    when 4
-      song_start_path(@session.uuid)
-    when 5
-      new_song_votes_path(@session.uuid) # Will show song voting
-    when 5.5
-      song_result_guest_path(@session.uuid)
-    when 6
-      sing_start_session_path(@session.uuid)
-    when 7
-      sing_start_path(@session.uuid) # Will show karaoke
-    when 8
-      sing_end_path(@session.uuid)
+      when 0, 1 then green_room_guest_path(@session.uuid)
+      when 2 then genre_start_path(@session.uuid)
+      when 3 then new_genre_votes_path(@session.uuid) # Will show genre voting
+      when 3.5 then genre_result_guest_path(@session.uuid)
+      when 4 then song_start_path(@session.uuid)
+      when 5 then new_song_votes_path(@session.uuid) # Will show song voting
+      when 5.5 then song_result_guest_path(@session.uuid)
+      when 6 then sing_start_session_path(@session.uuid)
+      when 7 then sing_start_path(@session.uuid) # Will show karaoke
+      when 8 then sing_end_path(@session.uuid)
     else
       green_room_guest_path(@session.uuid)
     end

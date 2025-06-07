@@ -36,12 +36,14 @@
     <div class="col justify-content-start">
 
       <div class="text-start">
+        <!-- IMPORTANT: Do not change the ID of the div - required for turbo-stream -->
         <div id="guest-count-host">
           <%= render 'guest_count', session: @session %>
         </div>
       </div>
 
       <div class="text-start">
+        <!-- IMPORTANT: Do not change the ID of the div - required for turbo-stream -->
         <div id="guest-list-host">
           <%= render 'guest_list', session: @session %>
         </div>
@@ -58,6 +60,7 @@
   </div>
   -->
 
+  <!-- IMPORTANT: Do not change the ID of the div - required for turbo-stream -->
   <div id="start-button-host" class="my-5 pb-5">
     <%= render 'start_button', session: @session, can_start: @session.guests.any?, style: "btn btn-outline-light goto_bt" %>
   </div>
