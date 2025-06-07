@@ -1,6 +1,11 @@
 <% session_obj = local_assigns[:session] || @session %>
+
 <% if session_obj && session_obj.respond_to?(:guests) %>
-  <p class="guests-count-p"><%= pluralize(session_obj.guests.count, 'person') %> in the session now</p>
+  <p class="guests-count-p">
+    <%= pluralize(session_obj.guests.count, 'person') %> in the session now
+  </p>
 <% else %>
-  <p class="guests-count-p">0 people in the session now</p>
+  <p class="guests-count-p">
+    Nobody here yet...
+  </p>
 <% end %>

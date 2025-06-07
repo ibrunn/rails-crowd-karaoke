@@ -1,3 +1,5 @@
+<%= turbo_stream_from "game_session_#{@session.uuid}_guests" if current_guest_for_session %>
+
 <div class="container">
 
 <h1>Welcome Stranger!</h1>

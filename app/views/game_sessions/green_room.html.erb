@@ -1,10 +1,17 @@
-<%= turbo_stream_from "game_session_#{@session.uuid}_host" if @session.user == current_user %>
+<!--
+  GUEST
+  STAGE 1
+  get "/sessions/:uuid/green_room", to: "game_sessions#green_room", as: :green_room_guest
+  # green room for guest, gets here after joining with nickname
+  # previous page:
+  # next page:
+ -->
+
 <%= turbo_stream_from "game_session_#{@session.uuid}_guests" if current_guest_for_session %>
 
 <div class="container">
 
   <h1>Green Room</h1>
-
 
   <div class="mt-5">
 

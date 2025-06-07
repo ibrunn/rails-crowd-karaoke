@@ -1,0 +1,12 @@
+<!--
+  HOST AND GUEST
+  STAGE 8
+  get "/sessions/:uuid/sing_end", to: "game_sessions#sing_end", as: :sing_end
+  # finishes the session with outro, returns to green room for everybody
+  # previous page: sing_start.html.erb
+  # next page host: show.html.erb
+  # next page guest: green_room.html.erb
+ -->
+
+<%= turbo_stream_from "game_session_#{@session.uuid}_host" if @session.user == current_user %>
+<%= turbo_stream_from "game_session_#{@session.uuid}_guests" if current_guest_for_session %>

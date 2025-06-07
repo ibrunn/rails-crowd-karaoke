@@ -1,3 +1,16 @@
+<!--
+  HOST AND GUEST
+  STAGE 3
+  get "/sessions/:uuid/genre_votes/new", to: "genre_votes#new", as: :new_genre_votes
+  post "/sessions/:uuid/genre_votes", to: "genre_votes#create", as: :create_genre_votes
+  # genre voting, different views for host and guest
+  # previous page: ../game_sessions/genre_start.html.erb
+  # next page: ../game_sessions/genre_result.html.erb
+ -->
+
+<%= turbo_stream_from "game_session_#{@session.uuid}_host" if @session.user == current_user %>
+<%= turbo_stream_from "game_session_#{@session.uuid}_guests" if current_guest_for_session %>
+
 <div class="container">
   <h1>Choose your favorite genre</h1>
 

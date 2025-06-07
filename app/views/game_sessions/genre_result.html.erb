@@ -1,3 +1,15 @@
+<!--
+  HOST AND GUEST
+  STAGE 3.5
+  get "/sessions/:uuid/genre_result", to: "game_sessions#genre_result", as: :genre_result
+  # result shows selected genre after voting, different views for host and guest
+  # previous page: ../genre_votes/new.html.erb
+  # next page: song_start.html.erb
+ -->
+
+<%= turbo_stream_from "game_session_#{@session.uuid}_host" if @session.user == current_user %>
+<%= turbo_stream_from "game_session_#{@session.uuid}_guests" if current_guest_for_session %>
+
 <div class="container">
   <h1>The most-selected genre is</h1>
   <h1 class="genre-selected">Rock</h1>
