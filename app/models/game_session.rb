@@ -6,7 +6,7 @@ class GameSession < ApplicationRecord
   has_many :genre_votes, through: :guests
   has_many :song_votes, through: :guests
 
-  # Move the UUID generator so it runs before validations on create:
+  # UUID generator runs before validations on create:
   before_validation :generate_uuid, on: :create
 
   validates :uuid,

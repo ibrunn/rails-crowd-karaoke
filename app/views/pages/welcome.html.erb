@@ -16,6 +16,9 @@
     A big-screen, AI-moderated karaoke party game that transforms any gathering into a joyful, all-in crowd sing-along
   </p>
 
-  <%= button_to "Create session", create_session_path, class: "btn btn-outline-light goto_bt" %>
+  <%= button_to "Create session",
+                create_session_path,
+                method: :post,
+                class: "btn btn-outline-light goto_bt" %>
 
 </div>

@@ -4,6 +4,7 @@
     <p>Current Stage: <%= @session.current_stage %></p>
 
     <% next_stage = case @session.current_stage
+                    when 0 then 1
                     when 1 then 2
                     when 2 then 3
                     when 3 then 3.5
@@ -16,7 +17,7 @@
                     when 8 then 1
                     end %>
 
-    <%= form_with url: advance_stage_path(@session.uuid, stage: next_stage), method: :post do |f| %>
+    <%= form_with url: advance_stage_path(@session.uuid, stage: next_stage), method: :get do |f| %>
       <%= f.submit "Advance to Stage #{next_stage}", class: "btn btn-warning" %>
     <% end %>
   </div>

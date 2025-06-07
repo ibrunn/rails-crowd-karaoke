@@ -2,18 +2,18 @@ require "rqrcode"
 class GameSessionsController < ApplicationController
   before_action :authenticate_user!, except: [:green_room, :genre_start, :genre_result,
                                               :song_start, :song_result, :sing_start, :sing_end,
-                                              :start_game, :advance_to_stage]
+                                              :start_game, :advance_to_stage, :advance_stage_handler]
   before_action :set_session, only: [:show, :green_room, :genre_start, :genre_result,
                                      :song_start, :song_result, :sing_start, :sing_end,
-                                     :start_game, :advance_to_stage]
+                                     :start_game, :advance_to_stage, :advance_stage_handler]
   before_action :verify_host_or_guest, only: [:show, :green_room, :genre_start, :genre_result,
                                               :song_start, :song_result, :sing_start, :sing_end,
-                                              :start_game, :advance_to_stage]
+                                              :start_game, :advance_to_stage, :advance_stage_handler]
 
   def create
-    @session = GameSession.create(current_stage: 0, user: current_user)
+    @session = GameSession.create(user: current_user, current_stage: 0, stage_started_at: Time.current)
     # redirects to ../views/game_sessions/show.html.erb which is the green_room_host
-    redirect_to green_room_host_path(@session.uuid)
+    advance_to_stage(1)
   end
 
   def show
@@ -58,7 +58,7 @@ class GameSessionsController < ApplicationController
       return
     end
 
-    unless @session.current_stage == 1
+    unless @session.current_stage == 1.to_f
       redirect_to green_room_host_path(@session.uuid), alert: "Game not ready to start"
       return
     end
@@ -71,6 +71,12 @@ class GameSessionsController < ApplicationController
   # - Store stage-specific data in stage_data JSON
   # - Broadcast updates to all connected users
   # - Handle redirects/renders appropriately
+
+  def advance_stage_handler
+    stage = params[:stage].to_f
+    advance_to_stage(stage)
+  end
+
   def advance_to_stage(stage)
     # Validation to prevent invalid stage transitions
     unless valid_stage_transition?(@session.current_stage, stage)
@@ -83,24 +89,26 @@ class GameSessionsController < ApplicationController
 
     # Store stage-specific data in stage_data JSON
     case stage
+      when 1
+        stage_data = {"previous_stage": 0.0, "transition_type": "manual", "host_initiated": true}
       when 2
-        stage_data = {"previous_stage": 1, "transition_type": "auto", "host_initiated": true}
+        stage_data = {"previous_stage": 1.0, "transition_type": "auto", "host_initiated": true}
       when 3
-        stage_data = {"previous_stage": 2, "transition_type": "auto", "host_initiated": false}
+        stage_data = {"previous_stage": 2.0, "transition_type": "auto", "host_initiated": false}
       when 3.5
-        stage_data = {"previous_stage": 3, "transition_type": "auto", "host_initiated": false}
+        stage_data = {"previous_stage": 3.0, "transition_type": "auto", "host_initiated": false}
       when 4
         stage_data = {"previous_stage": 3.5, "transition_type": "auto", "host_initiated": false}
       when 5
-        stage_data = {"previous_stage": 4, "transition_type": "auto", "host_initiated": false}
+        stage_data = {"previous_stage": 4.0, "transition_type": "auto", "host_initiated": false}
       when 5.5
-        stage_data = {"previous_stage": 5, "transition_type": "auto", "host_initiated": false}
+        stage_data = {"previous_stage": 5.0, "transition_type": "auto", "host_initiated": false}
       when 6
         stage_data = {"previous_stage": 5.5, "transition_type": "manual", "host_initiated": false}
       when 7
-        stage_data = {"previous_stage": 6, "transition_type": "manual", "host_initiated": true}
+        stage_data = {"previous_stage": 6.0, "transition_type": "manual", "host_initiated": true}
       when 8
-        stage_data = {"previous_stage": 7, "transition_type": "auto", "host_initiated": true}
+        stage_data = {"previous_stage": 7.0, "transition_type": "auto", "host_initiated": true}
     end
 
     # Update the session with new stage, timestamp and data
@@ -126,6 +134,7 @@ class GameSessionsController < ApplicationController
 
     # Handle redirects/renders appropriately based on stage
     destination = case stage
+      when 1 then green_room_host_path(@session.uuid)
       when 2 then genre_start_path(@session.uuid)
       when 3 then new_genre_votes_path(@session.uuid)
       when 3.5 then genre_result_guest_path(@session.uuid)
@@ -156,7 +165,15 @@ class GameSessionsController < ApplicationController
 
   # Stage Transition Validation
   def valid_stage_transition?(current_stage, new_stage)
+
+    puts "current_stage: #{current_stage.inspect} (#{current_stage.class})"
+    puts "new_stage: #{new_stage.inspect} (#{new_stage.class})"
+
+    puts "current_stage: #{current_stage.to_f.inspect} (#{current_stage.class})"
+    puts "new_stage: #{new_stage.to_f.inspect} (#{new_stage.class})"
+
     valid_transitions = {
+      0 => [1],           # Welcome → Green room
       1 => [2],           # Green room → Genre start
       2 => [3],           # Genre start → Genre voting
       3 => [3.5],         # Genre voting → Genre result
@@ -168,8 +185,7 @@ class GameSessionsController < ApplicationController
       7 => [8],           # Singing → Sing end
       8 => [1]            # Sing end → back to Green room
     }
-
-    valid_transitions[current_stage]&.include?(new_stage)
+    valid_transitions[current_stage.to_f]&.include?(new_stage.to_f)
   end
 
 end

@@ -7,7 +7,7 @@ Rails.application.routes.draw do
 
   # Stage progression mechanism
   post "/sessions/:uuid/start_game", to: "game_sessions#start_game", as: :start_game
-  patch "/sessions/:uuid/advance_stage", to: "game_sessions#advance_stage", as: :advance_stage
+  get "/sessions/:uuid/advance_stage", to: "game_sessions#advance_stage_handler", as: :advance_stage
   # Stage 0 - Host Welcome Page
   root to: "pages#welcome"
   # Stage 0 - Host Create Session
