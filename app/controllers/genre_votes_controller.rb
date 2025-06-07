@@ -1,19 +1,19 @@
 class GenreVotesController < ApplicationController
-  def broadcast_votes
-    genre_counts = Vote.group(:genre).count
-    data = genre_counts.map do |genre, count|
-      {
-        label: genre,
-        value: count,
-        color: genre_color_map[genre] || "#333"
-      }
-    end
-    ActionCable.server.broadcast("votes", data)
+  skip_before_action :authenticate_user!, only: [:new, :create]
+  before_action :set_session, only: [:new, :create]
+  before_action :verify_host_or_guest, only: [:new, :create]
+
+  def new
   end
 
   def create
   end
 
-  def new
+
+  private
+
+  def set_session
+    @session = GameSession.find_by!(uuid: params[:uuid])
   end
+
 end

@@ -3,8 +3,8 @@
 
 <% if can_start %>
   <%= button_to "START THE FUN",
-                genre_start_path(session_obj.uuid),
-                method: :get,
+                start_game_path(uuid: session_obj.uuid),
+                method: :post,
                 class: "btn btn-outline-light goto_bt" %>
 <% else %>
   <button class="btn btn-outline-light goto_bt" disabled>

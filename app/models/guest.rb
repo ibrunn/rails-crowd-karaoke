@@ -12,8 +12,8 @@ class Guest < ApplicationRecord
             message: "only letters, numbers, and spaces allowed" }
   validates :nickname,
             uniqueness: {
-              scope: :game_session_id,
-              message: "is already taken in this session" }
+            scope: :game_session_id,
+            message: "name is already taken in this session" }
 
 
   private

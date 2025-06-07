@@ -1,0 +1,25 @@
+<% if Rails.env.development? || Rails.env.test? %>
+  <div class="debug-navigation" style="text-align: center; margin-top: 30px; padding: 10px; border: 2px dotted red; background:rgba(255, 238, 238, 0.85);">
+    <h3>Debug Navigation</h3>
+    <p>Current Stage: <%= @session.current_stage %></p>
+
+    <% next_stage = case @session.current_stage
+                    when 0.0 then 1.0
+                    when 1.0 then 2.0
+                    when 2.0 then 3.0
+                    when 3.0 then 3.5
+                    when 3.5 then 4.0
+                    when 4.0 then 5.0
+                    when 5.0 then 5.5
+                    when 5.5 then 6.0
+                    when 6.0 then 7.0
+                    when 7.0 then 8.0
+                    when 8.0 then 1.0
+                    end %>
+
+    <%= form_with url: advance_stage_path(@session.uuid, stage: next_stage), method: :get do |f| %>
+      <!-- <%= f.hidden_field :stage, value: next_stage %> -->
+      <%= f.submit "Advance to Stage #{next_stage}", class: "btn btn-warning" %>
+    <% end %>
+  </div>
+<% end %>
