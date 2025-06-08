@@ -134,7 +134,7 @@ class GameSessionsController < ApplicationController
 
     # Broadcast to guests
     Turbo::StreamsChannel.broadcast_update_to(
-      "game_session_#{@session.uuid}_guests",
+      "game_session_#{@session.uuid}_guest",
       action: "append",
       target: "body",
       html: %(<script>window.location.href = "#{guest_destination}"</script>)

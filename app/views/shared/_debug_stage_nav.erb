@@ -17,9 +17,23 @@
                     when 8.0 then 1.0
                     end %>
 
+    <!-- Use the existing advance_stage_path which goes through advance_stage_handler -->
     <%= form_with url: advance_stage_path(@session.uuid, stage: next_stage), method: :get do |f| %>
-      <!-- <%= f.hidden_field :stage, value: next_stage %> -->
       <%= f.submit "Advance to Stage #{next_stage}", class: "btn btn-warning" %>
+    <% end %>
+
+    <!-- Optional: Add info about where this will redirect -->
+    <% if defined?(next_stage) %>
+      <p style="font-size: 12px; color: #666;">
+        Will redirect to:
+        <% if @session.user == current_user %>
+          <%= get_stage_destination(next_stage, :host, @session) rescue "Unknown" %>
+        <% elsif current_guest_for_session %>
+          <%= get_stage_destination(next_stage, :guest, @session) rescue "Unknown" %>
+        <% else %>
+          Not authorized
+        <% end %>
+      </p>
     <% end %>
   </div>
 <% end %>
