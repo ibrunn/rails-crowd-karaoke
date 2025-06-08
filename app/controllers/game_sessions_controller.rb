@@ -1,5 +1,7 @@
 require "rqrcode"
 class GameSessionsController < ApplicationController
+  include StageRouting
+
   before_action :authenticate_user!, except: [:green_room, :genre_start, :genre_result,
                                               :song_start, :song_result, :sing_start, :sing_end,
                                               :start_game, :advance_to_stage, :advance_stage_handler]
@@ -118,36 +120,29 @@ class GameSessionsController < ApplicationController
       stage_data: stage_data
     )
 
-    # Broadcast stage change to all connected users
+    # Get centralized destinations for both host and guest
+    host_destination = get_stage_destination(stage, :host, @session)
+    guest_destination = get_stage_destination(stage, :guest, @session)
+
+    # Broadcast stage change to hosts
     Turbo::StreamsChannel.broadcast_update_to(
       "game_session_#{@session.uuid}_host",
       action: "append",
       target: "body",
-      html: %(<script>window.location.href = "#{advance_stage_path(@session.uuid, stage: stage)}"</script>)
+      html: %(<script>window.location.href = "#{host_destination}"</script>)
     )
 
-    # Broadcast to guests as well
+    # Broadcast to guests
     Turbo::StreamsChannel.broadcast_update_to(
       "game_session_#{@session.uuid}_guests",
       action: "append",
       target: "body",
-      html: %(<script>window.location.href = "#{advance_stage_path(@session.uuid, stage: stage)}"</script>)
+      html: %(<script>window.location.href = "#{guest_destination}"</script>)
     )
 
-    # Handle redirects/renders appropriately based on stage
-    destination = case stage
-      when 1 then green_room_host_path(@session.uuid)
-      when 2 then genre_start_path(@session.uuid)
-      when 3 then new_genre_votes_path(@session.uuid)
-      when 3.5 then genre_result_path(@session.uuid)
-      when 4 then song_start_path(@session.uuid)
-      when 5 then new_song_votes_path(@session.uuid)
-      when 5.5 then song_result_path(@session.uuid)
-      when 6 then sing_start_path(@session.uuid)
-      when 8 then sing_end_path(@session.uuid)
-    else
-      root_path
-    end
+    # Determine destination for current user (host or guest)
+    is_host = @session.user == current_user
+    destination = is_host ? host_destination : guest_destination
 
     # Respond appropriately - either redirect or render JSON
     respond_to do |format|
@@ -157,7 +152,6 @@ class GameSessionsController < ApplicationController
 
     return @session
   end
-
 
   private
 

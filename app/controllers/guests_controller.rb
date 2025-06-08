@@ -1,4 +1,6 @@
 class GuestsController < ApplicationController
+  include StageRouting
+
   skip_before_action :authenticate_user!, only: [:new, :create]
   before_action :set_session, only: [:new, :create]
   before_action :verify_session_joinable, only: [:new, :create]
@@ -21,9 +23,9 @@ class GuestsController < ApplicationController
       # Broadcast new guest to host's big screen
       broadcast_guest_joined
 
-      # Route guest to current stage of the session
-      # Solves the Race Condition Problem
-      redirect_to guest_destination_path
+      # Route guest to current stage using centralized routing
+      destination = get_stage_destination(@session.current_stage, :guest, @session)
+      redirect_to destination
 
     else
       # Re-render form with validation errors
@@ -104,22 +106,4 @@ class GuestsController < ApplicationController
 
   end
 
-  def guest_destination_path
-    # Route guest to current stage of the session
-    # Solves the Race Condition Problem
-    case @session.current_stage
-      when 0.0, 1.0 then green_room_guest_path(@session.uuid)
-      when 2.0 then genre_start_path(@session.uuid)
-      when 3.0 then new_genre_votes_path(@session.uuid) # Will show genre voting
-      when 3.5 then genre_result_guest_path(@session.uuid)
-      when 4.0 then song_start_path(@session.uuid)
-      when 5.0 then new_song_votes_path(@session.uuid) # Will show song voting
-      when 5.5 then song_result_guest_path(@session.uuid)
-      when 6.0 then sing_start_session_path(@session.uuid)
-      when 7.0 then sing_start_path(@session.uuid) # Will show karaoke
-      when 8.0 then sing_end_path(@session.uuid)
-    else
-      green_room_guest_path(@session.uuid)
-    end
-  end
 end
