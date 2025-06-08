@@ -3,23 +3,41 @@
     <h3>Debug Navigation</h3>
     <p>Current Stage: <%= @session.current_stage %></p>
 
-    <% next_stage = case @session.current_stage
-                    when 0.0 then 1.0
-                    when 1.0 then 2.0
-                    when 2.0 then 3.0
-                    when 3.0 then 3.5
-                    when 3.5 then 4.0
-                    when 4.0 then 5.0
-                    when 5.0 then 5.5
-                    when 5.5 then 6.0
-                    when 6.0 then 7.0
-                    when 7.0 then 8.0
-                    when 8.0 then 1.0
-                    end %>
+    <%
+    # Calculate next stage using simple float arithmetic
+    current_stage = @session.current_stage.to_f
+    next_stage = case current_stage
+                 when 0.0 then 1.0
+                 when 1.0 then 2.0
+                 when 2.0 then 3.0
+                 when 3.0 then 3.5
+                 when 3.5 then 4.0
+                 when 4.0 then 5.0
+                 when 5.0 then 5.5
+                 when 5.5 then 6.0
+                 when 6.0 then 7.0
+                 when 7.0 then 8.0
+                 when 8.0 then 1.0
+                 end
+    %>
 
-    <%= form_with url: advance_stage_path(@session.uuid, stage: next_stage), method: :get do |f| %>
-      <!-- <%= f.hidden_field :stage, value: next_stage %> -->
-      <%= f.submit "Advance to Stage #{next_stage}", class: "btn btn-warning" %>
+    <% if next_stage %>
+      <%= form_with url: advance_stage_path(@session.uuid, stage: next_stage), method: :get do |f| %>
+        <%= f.submit "Advance to Stage #{next_stage}", class: "btn btn-warning" %>
+      <% end %>
+
+      <p style="font-size: 12px; color: #666; margin-top: 10px;">
+        Will redirect to:
+        <% if @session.user == current_user %>
+          <%= get_stage_destination(next_stage, :host, @session) rescue "Unknown" %>
+        <% elsif current_guest_for_session %>
+          <%= get_stage_destination(next_stage, :guest, @session) rescue "Unknown" %>
+        <% else %>
+          Not authorized
+        <% end %>
+      </p>
+    <% else %>
+      <p style="color: #999;">No valid next stage available</p>
     <% end %>
   </div>
 <% end %>
