@@ -28,7 +28,7 @@ module StageRouting
         guest: song_start_path(session.uuid)
       },
       5.0 => {
-        host: new_song_votes_path(session.uuid),
+        host: song_stats_path(session.uuid),
         guest: new_song_votes_path(session.uuid)
       },
       55.0 => {
@@ -40,8 +40,8 @@ module StageRouting
         guest: sing_start_path(session.uuid)
       },
       7.0 => {
-        host: sing_start_path(session.uuid),
-        guest: sing_start_path(session.uuid)
+        host: sing_end_path(session.uuid),
+        guest: sing_end_path(session.uuid)
       },
       8.0 => {
         host: sing_end_path(session.uuid),
