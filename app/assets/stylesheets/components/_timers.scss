@@ -1,0 +1,133 @@
+// 5 sec timer
+#countdown-5:before {
+  content: '';
+  font-size: 4em;
+  color: white;
+  animation: count-5 5s forwards;
+}
+
+@keyframes count-5 {
+  0% {
+    content: '5';
+  }
+  20% {
+    content: '4';
+  }
+  40% {
+    content: '3';
+  }
+  60% {
+    content: '2';
+  }
+  80% {
+    content: '1';
+  }
+  100% {
+    content: '0';
+  }
+}
+
+
+// 10 sec timer
+#countdown-10:before {
+  content: '';
+  font-size: 4em;
+  color: white;
+  animation: count-10 10s forwards;
+}
+
+@keyframes count-10 {
+  0% {
+    content: '10';
+  }
+  10% {
+    content: '9';
+  }
+  20% {
+    content: '8';
+  }
+  30% {
+    content: '7';
+  }
+  40% {
+    content: '6';
+  }
+  50% {
+    content: '5';
+  }
+  60% {
+    content: '4';
+  }
+  70% {
+    content: '3';
+  }
+  80% {
+    content: '2';
+  }
+  90% {
+    content: '1';
+  }
+   100% {
+    content: '0';
+  }
+}
+
+
+// 15 sec timer
+#countdown-15:before {
+  content: '';
+  font-size: 4em;
+  color: white;
+  animation: count-15 15s forwards;
+}
+
+@keyframes count-15 {
+  0% {
+    content: '15';
+  }
+  6.5% {
+    content: '14';
+  }
+  13% {
+    content: '13';
+  }
+  19.5% {
+    content: '12';
+  }
+  26% {
+    content: '11';
+  }
+  32.5% {
+    content: '10';
+  }
+  39% {
+    content: '9';
+  }
+  45.5% {
+    content: '8';
+  }
+  52% {
+    content: '7';
+  }
+  58.5% {
+    content: '6';
+  }
+  65% {
+    content: '5';
+  }
+  71.5% {
+    content: '4';
+  }
+  78% {
+    content: '3';
+  }
+  84.5% {
+    content: '2';
+  }
+  91% {
+    content: '1';
+  }
+  100% {
+    content: '0';
+  }
+}
