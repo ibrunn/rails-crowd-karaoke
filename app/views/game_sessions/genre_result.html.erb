@@ -10,9 +10,23 @@
 <%= turbo_stream_from "game_session_#{@session.uuid}_host" if @session.user == current_user %>
 
 <div class="container">
+
   <h1>The most-selected genre is</h1>
   <h1 class="genre-selected">Rock</h1>
+  
   <button type="button" class="btn btn btn-outline-light goto_bt">Start!</button>
+
+  <h1>
+    <%= render 'shared/countdown',
+        duration: 10,
+        session: @session,
+        next_stage: 3.0,
+        title: "Voting starts in:",
+        auto_advance: true %>
+  </h1>
+
 </div>
 
-<%= render 'shared/debug_stage_nav' %>
+<!--
+  <%= render 'shared/debug_stage_nav' %>
+-->

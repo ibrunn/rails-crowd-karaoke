@@ -1,9 +1,21 @@
 <%# <%= turbo_stream_from "game_session_#{@session.uuid}_host" if @session.user == current_user %>
 
+<div class="container">
+  
+  <h1>Pick your favorite music genre!</h1>
 
-<h1>stats</h1>
+  <%= turbo_stream_from "genre_stats_for_#{@session.id}" %>
+  <div id="stats">
+    <%= render "genre_chart_stat", session: @session %>
+  </div>
 
-<%= turbo_stream_from "genre_stats_for_#{@session.id}" %>
-<div id="stats">
-  <%= render "genre_chart_stat", session: @session %>
+  <h1>
+    <%= render 'shared/countdown',
+        duration: 20,
+        session: @session,
+        next_stage: 35,
+        title: "Result will reveal in:",
+        auto_advance: true %>
+  </h1>
+
 </div>
