@@ -21,7 +21,7 @@
                  end
     %>
 
-    <% if next_stage %>
+    <% if next_stage && @session.user == current_user %>
       <%= form_with url: advance_stage_path(@session.uuid, stage: next_stage), method: :get do |f| %>
         <%= f.submit "Advance to Stage #{next_stage}", class: "btn btn-warning" %>
       <% end %>
