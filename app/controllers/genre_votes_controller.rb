@@ -12,6 +12,7 @@ class GenreVotesController < ApplicationController
      @genre_vote = GenreVote.new(genre_vote_params)
      @genre_vote.guest = current_guest_for_session
      if @genre_vote.save
+      
       redirect_to genre_vote_path(@session.uuid, @genre_vote)
      else
       render :new, status: :unprocessable_entity

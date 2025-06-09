@@ -1,0 +1,1 @@
+<%= column_chart session.genre_votes.group(:genre).count.transform_keys { |genre| genre.name } %>

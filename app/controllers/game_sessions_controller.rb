@@ -5,7 +5,7 @@ class GameSessionsController < ApplicationController
                                               :start_game, :advance_to_stage, :advance_stage_handler]
   before_action :set_session, only: [:show, :green_room, :genre_start, :genre_result,
                                      :song_start, :song_result, :sing_start, :sing_end, :singing,
-                                     :start_game, :advance_to_stage, :advance_stage_handler]
+                                     :start_game, :advance_to_stage, :advance_stage_handler, :genre_stats]
   before_action :verify_host_or_guest, only: [:show, :green_room, :genre_start, :genre_result,
                                               :song_start, :song_result, :sing_start, :sing_end, :singing,
                                               :start_game, :advance_to_stage, :advance_stage_handler]
@@ -28,6 +28,9 @@ class GameSessionsController < ApplicationController
   end
 
   def genre_start
+  end
+
+  def genre_stats
   end
 
   def genre_result
