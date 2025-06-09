@@ -10,11 +10,21 @@
 <%= turbo_stream_from "game_session_#{@session.uuid}_host" if @session.user == current_user %>
 <%= turbo_stream_from "game_session_#{@session.uuid}_guest" if current_guest_for_session %>
 
-<%= render 'shared/debug_stage_nav' %>
 
 <div class="container">
+
   <p>Let’s get down to business</p>
   <p style= "margin-top: 80px;">Select your love song by tapping - tap as much as you can!</p>
 
-  <h1><span id="countdown-10"></span></h1>
+  <h1>
+    <%= render 'shared/countdown',
+        duration: 10,
+        session: @session,
+        next_stage: 5.0,
+        title: "Song voting starts in:",
+        auto_advance: true %>
+  </h1>
+
 </div>
+
+<%# <%= render 'shared/debug_stage_nav' %>

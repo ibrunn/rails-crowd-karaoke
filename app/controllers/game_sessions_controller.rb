@@ -39,6 +39,9 @@ class GameSessionsController < ApplicationController
   def song_start
   end
 
+  def song_stats
+  end
+
   def song_result
   end
 
