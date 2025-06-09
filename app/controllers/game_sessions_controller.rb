@@ -91,18 +91,28 @@ class GameSessionsController < ApplicationController
     host_destination = get_stage_destination(normalized_stage, :host, @session)
     guest_destination = get_stage_destination(normalized_stage, :guest, @session)
 
-    # Broadcast to hosts
+    # Broadcast to hosts using Turbo.visit (works in all Rails versions)
     Turbo::StreamsChannel.broadcast_update_to(
       "game_session_#{@session.uuid}_host",
-      action: :redirect,
-      url: host_destination
+      action: "append",
+      target: "head",
+      html: %(<script>
+        setTimeout(() => {
+          Turbo.visit("#{host_destination}");
+        }, 100);
+      </script>)
     )
 
-    # Broadcast to guests
+    # Broadcast to guests using Turbo.visit
     Turbo::StreamsChannel.broadcast_update_to(
       "game_session_#{@session.uuid}_guest",
-      action: :redirect,
-      url: guest_destination
+      action: "append",
+      target: "head",
+      html: %(<script>
+        setTimeout(() => {
+          Turbo.visit("#{guest_destination}");
+        }, 100);
+      </script>)
     )
 
     # Determine destination for current user
