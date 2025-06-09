@@ -1,19 +1,21 @@
 class GenreVotesController < ApplicationController
-  skip_before_action :authenticate_user!, only: [:new, :create]
-  before_action :set_session, only: [:new, :create]
-  before_action :verify_host_or_guest, only: [:new, :create]
+  skip_before_action :authenticate_user!
+  before_action :set_session
+  before_action :verify_host_or_guest
+  before_action :prevent_double_voting, only: [:new, :create]
 
   def new
-    @existing_genre_vote = GenreVote.find_by(guest: current_guest_for_session)
-    redirect_to genre_vote_path(@session.uuid, @existing_genre_vote) if @existing_genre_vote
     @genre_vote = GenreVote.new
   end
 
   def create
      @genre_vote = GenreVote.new(genre_vote_params)
      @genre_vote.guest = current_guest_for_session
-     @genre_vote.save
-     redirect_to genre_vote_path(@session.uuid, @genre_vote)
+     if @genre_vote.save
+      redirect_to genre_vote_path(@session.uuid, @genre_vote)
+     else
+      render :new, status: :unprocessable_entity
+     end
   end
 
   def show
@@ -28,6 +30,11 @@ class GenreVotesController < ApplicationController
 
   def set_session
     @session = GameSession.find_by!(uuid: params[:uuid])
+  end
+
+  def prevent_double_voting
+    @existing_genre_vote = GenreVote.find_by(guest: current_guest_for_session)
+    redirect_to genre_vote_path(@session.uuid, @existing_genre_vote) if @existing_genre_vote
   end
 
 end

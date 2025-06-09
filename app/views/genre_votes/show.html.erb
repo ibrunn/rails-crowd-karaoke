@@ -1,1 +1,14 @@
-You voted for <%= @genre_vote.genre.name %>
+<!--
+  GUEST
+  STAGE 3.5
+  # shows selected genre for guest
+  # previous page: new.html.erb
+  # next page:
+ -->
+
+<%= turbo_stream_from "game_session_#{@session.uuid}_guest" if current_guest_for_session %>
+
+
+<div class="container">
+  You voted for <%= @genre_vote.genre.name %>
+</div>
