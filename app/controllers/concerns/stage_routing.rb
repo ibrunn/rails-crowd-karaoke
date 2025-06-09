@@ -16,7 +16,7 @@ module StageRouting
         guest: genre_start_path(session.uuid)
       },
       3.0 => {
-        host: new_genre_votes_path(session.uuid),
+        host: genre_stats_path(session.uuid),
         guest: new_genre_votes_path(session.uuid)
       },
       35.0 => {
