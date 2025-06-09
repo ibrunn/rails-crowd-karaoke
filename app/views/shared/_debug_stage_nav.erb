@@ -10,23 +10,24 @@
                  when 0.0 then 1.0
                  when 1.0 then 2.0
                  when 2.0 then 3.0
-                 when 3.0 then 3.5
-                 when 3.5 then 4.0
+                 when 3.0 then 35.0
+                 when 35.0 then 4.0
                  when 4.0 then 5.0
-                 when 5.0 then 5.5
-                 when 5.5 then 6.0
+                 when 5.0 then 55.0
+                 when 55.0 then 6.0
                  when 6.0 then 7.0
                  when 7.0 then 8.0
                  when 8.0 then 1.0
                  end
     %>
-
-    <% if next_stage %>
-      <%= form_with url: advance_stage_path(@session.uuid, stage: next_stage), method: :get do |f| %>
-        <%= f.submit "Advance to Stage #{next_stage}", class: "btn btn-warning" %>
+    <% if @session.user == current_user %>
+      <% if next_stage %>
+        <%= form_with url: advance_stage_path(@session.uuid, stage: next_stage), method: :get do |f| %>
+          <%= f.submit "Advance to Stage #{next_stage}", class: "btn btn-warning" %>
+        <% end %>
+      <% else %>
+        <p style="color: #999;">No valid next stage available</p>
       <% end %>
-    <% else %>
-      <p style="color: #999;">No valid next stage available</p>
     <% end %>
   </div>
 <% end %>
