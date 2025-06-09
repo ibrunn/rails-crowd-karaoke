@@ -24,8 +24,12 @@ Rails.application.routes.draw do
   get "/sessions/:uuid/genre_votes/new", to: "genre_votes#new", as: :new_genre_votes
   post "/sessions/:uuid/genre_votes", to: "genre_votes#create", as: :game_session_genre_votes
   get "/sessions/:uuid/genre_votes/:id", to: "genre_votes#show", as: :genre_vote
+
+  get "/sessions/:uuid/genre_stats", to: "game_sessions#genre_stats", as: :genre_stats
+
   # Stage 3.5 - Guest Genre Result
   get "/sessions/:uuid/genre_result", to: "game_sessions#genre_result", as: :genre_result
+
   # Stage 4 - Host+Guest Song Intro
   get "/sessions/:uuid/song_start", to: "game_sessions#song_start", as: :song_start
   # Stage 5 - Guest Song Voting
