@@ -9,6 +9,6 @@
  -->
 
 <%= turbo_stream_from "game_session_#{@session.uuid}_host" if @session.user == current_user %>
-<%= turbo_stream_from "game_session_#{@session.uuid}_guests" if current_guest_for_session %>
+<%= turbo_stream_from "game_session_#{@session.uuid}_guest" if current_guest_for_session %>
 
 <%= render 'shared/debug_stage_nav' %>
