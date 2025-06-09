@@ -16,6 +16,13 @@
   <h1>You have waited long enough!</h1>
   <p>Let’s start easy: Get ready to choose your favorite music genre</P>
 
+  <%= render 'shared/countdown',
+      duration: 10,           # Uses your existing countdown-10 CSS
+      session: @session,
+      next_stage: 3.0,
+      title: "Voting starts in:",
+      auto_advance: true %>
+      
   <h1><span id="countdown-10"></span></h1>
 </div>
 

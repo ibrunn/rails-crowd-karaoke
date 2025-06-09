@@ -131,3 +131,110 @@
     content: '0';
   }
 }
+
+
+// Enhanced states for countdown
+.countdown-active {
+  // Optional: Add any styling for active countdown state
+}
+
+.countdown-display.paused:before {
+  animation-play-state: paused !important;
+  opacity: 0.6;
+}
+
+.countdown-display.finished:before {
+  content: '✓' !important;
+  color: #28a745 !important;
+  animation: finished-pulse 1s ease-out;
+}
+
+@keyframes finished-pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+// Additional durations you might need
+// 20 sec timer
+#countdown-20:before {
+  content: '';
+  font-size: 4em;
+  color: white;
+  animation: count-20 20s forwards;
+}
+
+@keyframes count-20 {
+  0% { content: '20'; }
+  5% { content: '19'; }
+  10% { content: '18'; }
+  15% { content: '17'; }
+  20% { content: '16'; }
+  25% { content: '15'; }
+  30% { content: '14'; }
+  35% { content: '13'; }
+  40% { content: '12'; }
+  45% { content: '11'; }
+  50% { content: '10'; }
+  55% { content: '9'; }
+  60% { content: '8'; }
+  65% { content: '7'; }
+  70% { content: '6'; }
+  75% { content: '5'; }
+  80% { content: '4'; }
+  85% { content: '3'; }
+  90% { content: '2'; }
+  95% { content: '1'; }
+  100% { content: '0'; }
+}
+
+// 30 sec timer
+#countdown-30:before {
+  content: '';
+  font-size: 4em;
+  color: white;
+  animation: count-30 30s forwards;
+}
+
+@keyframes count-30 {
+  0% { content: '30'; }
+  3.33% { content: '29'; }
+  6.67% { content: '28'; }
+  10% { content: '27'; }
+  13.33% { content: '26'; }
+  16.67% { content: '25'; }
+  20% { content: '24'; }
+  23.33% { content: '23'; }
+  26.67% { content: '22'; }
+  30% { content: '21'; }
+  33.33% { content: '20'; }
+  36.67% { content: '19'; }
+  40% { content: '18'; }
+  43.33% { content: '17'; }
+  46.67% { content: '16'; }
+  50% { content: '15'; }
+  53.33% { content: '14'; }
+  56.67% { content: '13'; }
+  60% { content: '12'; }
+  63.33% { content: '11'; }
+  66.67% { content: '10'; }
+  70% { content: '9'; }
+  73.33% { content: '8'; }
+  76.67% { content: '7'; }
+  80% { content: '6'; }
+  83.33% { content: '5'; }
+  86.67% { content: '4'; }
+  90% { content: '3'; }
+  93.33% { content: '2'; }
+  96.67% { content: '1'; }
+  100% { content: '0'; }
+}

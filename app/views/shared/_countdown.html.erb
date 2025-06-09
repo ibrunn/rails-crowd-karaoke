@@ -1,0 +1,66 @@
+<%# app/views/shared/_countdown.html.erb %>
+<%#
+  Parameters:
+  - duration: Timer duration in seconds (required) - Use 5, 10, or 15 for existing styles
+  - session: GameSession object (required)
+  - next_stage: Next stage number (required)
+  - auto_advance: Enable auto-advance (default: true)
+  - show_controls: Show pause/resume buttons (default: false, only for development)
+  - title: Display title (optional)
+  - centered: Center the countdown (default: true)
+%>
+
+<%
+  duration = local_assigns[:duration] || 10
+  auto_advance = local_assigns.fetch(:auto_advance, true)
+  show_controls = local_assigns.fetch(:show_controls, false)
+  title = local_assigns[:title]
+  centered = local_assigns.fetch(:centered, true)
+%>
+
+<div class="<%= 'text-center' if centered %>"
+     data-controller="countdown"
+     data-countdown-duration-value="<%= duration %>"
+     data-countdown-auto-advance-value="<%= auto_advance %>"
+     data-countdown-next-stage-value="<%= next_stage %>"
+     data-countdown-session-uuid-value="<%= session.uuid %>">
+
+  <% if title %>
+    <h3 style="color: white; margin-bottom: 1rem;"><%= title %></h3>
+  <% end %>
+
+  <!-- Main countdown display - uses your existing CSS animations -->
+  <div data-countdown-target="timer" class="countdown-display">
+    <!-- The CSS animation will replace this content -->
+  </div>
+
+  <% if show_controls && Rails.env.development? %>
+    <div class="countdown-controls mt-3">
+      <button type="button"
+              class="btn btn-sm btn-outline-warning me-2"
+              data-action="click->countdown#pauseAction">
+        ⏸️ Pause
+      </button>
+
+      <button type="button"
+              class="btn btn-sm btn-outline-success me-2"
+              data-action="click->countdown#resumeAction">
+        ▶️ Resume
+      </button>
+
+      <button type="button"
+              class="btn btn-sm btn-outline-secondary"
+              data-action="click->countdown#resetAction">
+        🔄 Reset
+      </button>
+    </div>
+  <% end %>
+
+  <% if Rails.env.development? %>
+    <div class="countdown-debug mt-2">
+      <small style="color: rgba(255,255,255,0.7);">
+        Duration: <%= duration %>s | Next: Stage <%= next_stage %> | Auto: <%= auto_advance %>
+      </small>
+    </div>
+  <% end %>
+</div>
