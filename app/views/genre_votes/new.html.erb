@@ -14,32 +14,27 @@
 <div class="container">
   <h1>Choose your favorite genre</h1>
 
-  <div class="row">
-    <div class="col song-block">
-      <p>Pop</p>
-    </div>
-    <div class="col song-block">
-      <p>Rock</p>
-    </div>
-  </div>
 
-  <div class="row">
-    <div class="col song-block">
-      <p>R&B / Soul</p>
-    </div>
-    <div class="col song-block">
-      <p>Hip-Hop / Rap</p>
-    </div>
-  </div>
 
-  <div class="row">
-    <div class="col song-block">
-      <p>Country</p>
-    </div>
-    <div class="col song-block">
-      <p>Dance / EDM / Disco</p>
-    </div>
-  </div>
+
+    <%= simple_form_for [@session.uuid, @genre_vote], url: game_session_genre_votes_path(@session.uuid, @genre_vote), html: { data: { controller: "form-submission" }} do |f| %>
+            <div class="row">
+          <div class="col">
+      <%= f.association :genre,
+                  as: :radio_buttons,
+                  collection: Genre.all,
+                  collection_wrapper_tag: 'div',
+                  item_wrapper_class: 'category-item',
+                  input_html: {class: 'category-selector', data: { action: "change->form-submission#submit" }}
+                  %>
+        <%= f.submit %>
+            </div>
+              </div>
+      <% end %>
+
+
+
+
 
   <!-- this button only appears to the Host-->
   <button type="button" class="btn btn btn-outline-light goto_bt mt-3">Start!</button>
