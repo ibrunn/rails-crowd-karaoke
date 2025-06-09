@@ -94,25 +94,15 @@ class GameSessionsController < ApplicationController
     # Broadcast to hosts
     Turbo::StreamsChannel.broadcast_update_to(
       "game_session_#{@session.uuid}_host",
-      action: "append",
-      target: "head",  # <head> element always exists
-      html: %(<script>
-        setTimeout(function() {
-          window.location.href = "#{host_destination}";
-        }, 100);
-      </script>)
+      action: :redirect,
+      url: host_destination
     )
 
     # Broadcast to guests
     Turbo::StreamsChannel.broadcast_update_to(
       "game_session_#{@session.uuid}_guest",
-      action: "append",
-      target: "head",  # <head> element always exists
-      html: %(<script>
-        setTimeout(function() {
-          window.location.href = "#{guest_destination}";
-        }, 100);
-      </script>)
+      action: :redirect,
+      url: guest_destination
     )
 
     # Determine destination for current user
