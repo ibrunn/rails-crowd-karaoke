@@ -1,4 +1,4 @@
-<%= turbo_stream_from "game_session_#{@session.uuid}_guests" if current_guest_for_session %>
+<%= turbo_stream_from "game_session_#{@session.uuid}_guest" if current_guest_for_session %>
 
 <div class="container">
 
