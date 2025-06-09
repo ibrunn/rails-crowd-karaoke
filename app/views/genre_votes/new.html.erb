@@ -12,10 +12,6 @@
 
 <div class="container">
   <h1>Choose your favorite genre</h1>
-
-
-
-
     <%= simple_form_for [@session.uuid, @genre_vote], url: game_session_genre_votes_path(@session.uuid, @genre_vote), html: { data: { controller: "form-submission" }} do |f| %>
             <div class="row">
           <div class="col">
@@ -31,14 +27,10 @@
               </div>
       <% end %>
 
-
-
-
+  <h1><span id="countdown-15"></span></h1>
 
   <!-- this button only appears to the Host-->
   <button type="button" class="btn btn btn-outline-light goto_bt mt-3">Start!</button>
-
-  <h1><span></span></h1>
 
   <%= render 'shared/debug_stage_nav' %>
 
