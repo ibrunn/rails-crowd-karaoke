@@ -19,7 +19,7 @@ module StageRouting
         host: new_genre_votes_path(session.uuid),
         guest: new_genre_votes_path(session.uuid)
       },
-      3.5 => {
+      35.0 => {
         host: genre_result_path(session.uuid),
         guest: genre_result_path(session.uuid)
       },
@@ -31,7 +31,7 @@ module StageRouting
         host: new_song_votes_path(session.uuid),
         guest: new_song_votes_path(session.uuid)
       },
-      5.5 => {
+      55.0 => {
         host: song_result_path(session.uuid),
         guest: song_result_path(session.uuid)
       },

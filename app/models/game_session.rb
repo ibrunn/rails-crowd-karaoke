@@ -15,7 +15,7 @@ class GameSession < ApplicationRecord
 
   validates :current_stage,
             presence: true,
-            inclusion: { in: [0, 1, 2, 3, 3.5, 4, 5, 5.5, 6, 7, 8] }
+            inclusion: { in: [0, 1, 2, 3, 35, 4, 5, 55, 6, 7, 8] }
 
   private
 

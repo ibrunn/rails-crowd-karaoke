@@ -1,7 +1,5 @@
 require "rqrcode"
 class GameSessionsController < ApplicationController
-  include StageRouting
-
   before_action :authenticate_user!, except: [:green_room, :genre_start, :genre_result,
                                               :song_start, :song_result, :sing_start, :sing_end, :singing,
                                               :start_game, :advance_to_stage, :advance_stage_handler]
@@ -93,20 +91,28 @@ class GameSessionsController < ApplicationController
     host_destination = get_stage_destination(normalized_stage, :host, @session)
     guest_destination = get_stage_destination(normalized_stage, :guest, @session)
 
-    # Broadcast stage change to hosts
+    # Broadcast to hosts using Turbo.visit (works in all Rails versions)
     Turbo::StreamsChannel.broadcast_update_to(
       "game_session_#{@session.uuid}_host",
       action: "append",
-      target: "body",
-      html: %(<script>window.location.href = "#{host_destination}"</script>)
+      target: "head",
+      html: %(<script>
+        setTimeout(() => {
+          Turbo.visit("#{host_destination}");
+        }, 100);
+      </script>)
     )
 
-    # Broadcast to guests
+    # Broadcast to guests using Turbo.visit
     Turbo::StreamsChannel.broadcast_update_to(
       "game_session_#{@session.uuid}_guest",
       action: "append",
-      target: "body",
-      html: %(<script>window.location.href = "#{guest_destination}"</script>)
+      target: "head",
+      html: %(<script>
+        setTimeout(() => {
+          Turbo.visit("#{guest_destination}");
+        }, 100);
+      </script>)
     )
 
     # Determine destination for current user
@@ -137,7 +143,7 @@ class GameSessionsController < ApplicationController
   end
 
   def determine_transition_type(stage)
-    auto_stages = [3.0, 3.5, 4.0, 5.0, 5.5, 8.0]
+    auto_stages = [3.0, 35.0, 4.0, 5.0, 55.0, 8.0]
     auto_stages.include?(stage) ? "auto" : "manual"
   end
 
@@ -155,11 +161,11 @@ class GameSessionsController < ApplicationController
       0.0 => [1.0],   # Welcome → Green room
       1.0 => [2.0],   # Green room → Genre start
       2.0 => [3.0],   # Genre start → Genre voting
-      3.0 => [3.5],   # Genre voting → Genre result
-      3.5 => [4.0],   # Genre result → Song start
+      3.0 => [35.0],   # Genre voting → Genre result
+      35.0 => [4.0],   # Genre result → Song start
       4.0 => [5.0],   # Song start → Song voting
-      5.0 => [5.5],   # Song voting → Song result
-      5.5 => [6.0],   # Song result → Sing start
+      5.0 => [55.0],   # Song voting → Song result
+      55.0 => [6.0],   # Song result → Sing start
       6.0 => [7.0],   # Sing start → Singing
       7.0 => [8.0],   # Singing → Sing end
       8.0 => [1.0]    # Sing end → back to Green room
