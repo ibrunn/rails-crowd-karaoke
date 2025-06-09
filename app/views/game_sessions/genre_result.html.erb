@@ -2,31 +2,32 @@
   HOST
   STAGE 3.5
   get "/sessions/:uuid/genre_result", to: "game_sessions#genre_result", as: :genre_result
-  # result shows selected genre after voting, different views for host and guest
-  # previous page: ../genre_votes/new.html.erb
+  # result shows selected genre after voting, same views for host and guest
+  # previous page host: genre_stats.html.erb
+  # previous page guest: ../genre_votes/show.html.erb
   # next page: song_start.html.erb
  -->
 
 <%= turbo_stream_from "game_session_#{@session.uuid}_host" if @session.user == current_user %>
+<%= turbo_stream_from "game_session_#{@session.uuid}_guest" if current_guest_for_session %>
+
 
 <div class="container">
 
   <h1>The most-selected genre is</h1>
   <h1 class="genre-selected">Rock</h1>
-  
+
   <button type="button" class="btn btn btn-outline-light goto_bt">Start!</button>
 
   <h1>
     <%= render 'shared/countdown',
         duration: 10,
         session: @session,
-        next_stage: 3.0,
-        title: "Voting starts in:",
+        next_stage: 4.0,
+        title: "Song voting starts in:",
         auto_advance: true %>
   </h1>
 
 </div>
 
-<!--
-  <%= render 'shared/debug_stage_nav' %>
--->
+<%# <%= render 'shared/debug_stage_nav' %>

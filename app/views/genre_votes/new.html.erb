@@ -10,28 +10,29 @@
 
 <%= turbo_stream_from "game_session_#{@session.uuid}_guest" if current_guest_for_session %>
 
+
 <div class="container">
+
   <h1>Choose your favorite genre</h1>
+
     <%= simple_form_for [@session.uuid, @genre_vote], url: game_session_genre_votes_path(@session.uuid, @genre_vote), html: { data: { controller: "form-submission" }} do |f| %>
-            <div class="row">
-          <div class="col">
-      <%= f.association :genre,
-                  as: :radio_buttons,
-                  collection: Genre.all,
-                  collection_wrapper_tag: 'div',
-                  item_wrapper_class: 'category-item',
-                  input_html: {class: 'category-selector', data: { action: "change->form-submission#submit" }}
-                  %>
-        <%= f.submit %>
-            </div>
-              </div>
-      <% end %>
+      <div class="row">
+        <div class="col">
+          <%= f.association :genre,
+                      as: :radio_buttons,
+                      collection: Genre.all,
+                      collection_wrapper_tag: 'div',
+                      item_wrapper_class: 'category-item',
+                      input_html: {class: 'category-selector',
+                      data: { action: "change->form-submission#submit" }}
+                      %>
+          <%= f.submit %>
+        </div>
+      </div>
+    <% end %>
 
-  <h1><span id="countdown-15"></span></h1>
-
-  <!-- this button only appears to the Host-->
-  <button type="button" class="btn btn btn-outline-light goto_bt mt-3">Start!</button>
-
-  <%= render 'shared/debug_stage_nav' %>
+  <h1><span id="countdown-20"></span></h1>
 
 </div>
+
+  <%# <%= render 'shared/debug_stage_nav' %>
