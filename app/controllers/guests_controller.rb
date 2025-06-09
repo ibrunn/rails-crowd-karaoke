@@ -1,6 +1,4 @@
 class GuestsController < ApplicationController
-  include StageRouting
-
   skip_before_action :authenticate_user!, only: [:new, :create]
   before_action :set_session, only: [:new, :create]
   before_action :verify_session_joinable, only: [:new, :create]
@@ -66,6 +64,21 @@ class GuestsController < ApplicationController
       locals: { session: @session }
     )
 
+    # Update guest interfaces
+    Turbo::StreamsChannel.broadcast_update_to(
+      "game_session_#{@session.uuid}_guest",
+      target: "guest-list",
+      partial: "game_sessions/guest_list",
+      locals: { session: @session }
+      )
+
+    Turbo::StreamsChannel.broadcast_update_to(
+      "game_session_#{@session.uuid}_guest",
+      target: "guest-count",
+      partial: "game_sessions/guest_count",
+      locals: { session: @session }
+      )
+
     # Enable start button if conditions are met
     current_stage = @session.current_stage.to_f
     if @session.guests.count >= 1 && [0.0, 1.0].include?(current_stage)
@@ -76,20 +89,5 @@ class GuestsController < ApplicationController
         locals: { session: @session, can_start: true }
       )
     end
-
-    # Update guest interfaces
-    Turbo::StreamsChannel.broadcast_update_to(
-      "game_session_#{@session.uuid}_guest",
-      target: "guest-list",
-      partial: "game_sessions/guest_list",
-      locals: { session: @session }
-    )
-
-    Turbo::StreamsChannel.broadcast_update_to(
-      "game_session_#{@session.uuid}_guest",
-      target: "guest-count",
-      partial: "game_sessions/guest_count",
-      locals: { session: @session }
-    )
   end
 end

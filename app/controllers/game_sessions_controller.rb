@@ -1,7 +1,5 @@
 require "rqrcode"
 class GameSessionsController < ApplicationController
-  include StageRouting
-
   before_action :authenticate_user!, except: [:green_room, :genre_start, :genre_result,
                                               :song_start, :song_result, :sing_start, :sing_end, :singing,
                                               :start_game, :advance_to_stage, :advance_stage_handler]
@@ -93,20 +91,28 @@ class GameSessionsController < ApplicationController
     host_destination = get_stage_destination(normalized_stage, :host, @session)
     guest_destination = get_stage_destination(normalized_stage, :guest, @session)
 
-    # Broadcast stage change to hosts
+    # Broadcast to hosts using Turbo.visit (works in all Rails versions)
     Turbo::StreamsChannel.broadcast_update_to(
       "game_session_#{@session.uuid}_host",
       action: "append",
-      target: "body",
-      html: %(<script>window.location.href = "#{host_destination}"</script>)
+      target: "head",
+      html: %(<script>
+        setTimeout(() => {
+          Turbo.visit("#{host_destination}");
+        }, 100);
+      </script>)
     )
 
-    # Broadcast to guests
+    # Broadcast to guests using Turbo.visit
     Turbo::StreamsChannel.broadcast_update_to(
       "game_session_#{@session.uuid}_guest",
       action: "append",
-      target: "body",
-      html: %(<script>window.location.href = "#{guest_destination}"</script>)
+      target: "head",
+      html: %(<script>
+        setTimeout(() => {
+          Turbo.visit("#{guest_destination}");
+        }, 100);
+      </script>)
     )
 
     # Determine destination for current user
