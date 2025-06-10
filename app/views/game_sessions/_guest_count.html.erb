@@ -2,7 +2,7 @@
 
 <% if session_obj && session_obj.respond_to?(:guests) %>
   <p class="guests-count-p">
-    <%= pluralize(session_obj.guests.count, 'person') %> in the session now
+    <%= pluralize(session_obj.guests.count, 'legend') %> and counting ...
   </p>
 <% else %>
   <p class="guests-count-p">

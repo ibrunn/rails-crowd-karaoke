@@ -14,10 +14,14 @@
 
 <div class="container">
 
-  <h1>Let’s sing</h1>
-  <h1 class="warning"><%= @winning_song.title %></h1>
-  <p>by</p>
-  <h1 class="warning"><%= @winning_song.artist %></h1>
+  <h1>Mic check, party people! 🎤</h1>
+
+  <h2>
+    The karaoke train is about to leave the station. Get ready to bring the house down!
+  </h2>
+
+  <h3 class="warning"><%= @winning_song.title %></h3>
+  <h3 class="warning"><%= @winning_song.artist %></h3>
 
   <% if @session.user == current_user %>
     <div id="play-button-host" class="my-5 pb-5">
