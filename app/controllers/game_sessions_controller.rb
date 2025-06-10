@@ -56,6 +56,12 @@ class GameSessionsController < ApplicationController
   def song_result
     # Determine the winning song for the current session
     @winning_song = find_winning_song
+
+    if @winning_song
+      Rails.logger.info "Winning song: '#{@winning_song.title}' by #{@winning_song.artist}"
+    else
+      Rails.logger.info "No votes cast for songs"
+    end
   end
 
   def sing_start
@@ -229,20 +235,23 @@ class GameSessionsController < ApplicationController
   end
 
   def find_winning_song
-  # Get all guests for this session
-  guest_ids = @session.guests.pluck(:id)
+    # Get all guests for this session
+    guest_ids = @session.guests.pluck(:id)
 
-  # Return nil if no guests
-  return nil if guest_ids.empty?
+    # Return nil if no guests
+    return nil if guest_ids.empty?
 
-  # Find the game_session_song with the highest total votes from this session's guests
-  @session.game_session_songs
-          .joins(:song_votes)
-          .where(song_votes: { guest_id: guest_ids })
-          .group('game_session_songs.id')
-          .order('SUM(song_votes.votes_count) DESC')
-          .includes(:song)
-          .first
+    # Find the game_session_song with the highest total votes from this session's guests
+    winning_game_session_song = @session.game_session_songs
+                                      .joins(:song_votes)
+                                      .where(song_votes: { guest_id: guest_ids })
+                                      .group('game_session_songs.id')
+                                      .order('SUM(song_votes.votes_count) DESC')
+                                      .includes(:song)
+                                      .first
+
+    # Return the actual Song instance (not GameSessionSong)
+    winning_game_session_song&.song
   end
-
+  
 end
