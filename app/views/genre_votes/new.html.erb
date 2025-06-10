@@ -18,7 +18,7 @@
     <%= simple_form_for [@session.uuid, @genre_vote], url: game_session_genre_votes_path(@session.uuid, @genre_vote), html: { data: { controller: "form-submission" }} do |f| %>
       <div class="row">
         <div class="col">
-          <%= f.association :genre,
+          <%= f.association :genre , legend_tag: false,
                       as: :radio_buttons,
                       collection: Genre.all,
                       collection_wrapper_tag: 'div',
@@ -26,7 +26,7 @@
                       input_html: {class: 'category-selector',
                       data: { action: "change->form-submission#submit" }}
                       %>
-          <%= f.submit %>
+
         </div>
       </div>
     <% end %>

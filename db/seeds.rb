@@ -1,16 +1,17 @@
 # clears all tables before seeding
 puts "cleaning tables from old records..."
+GameSessionSong.destroy_all
 Song.destroy_all
+GenreVote.destroy_all
 Genre.destroy_all
 
 # seeding music genres
 puts "seeding music genres..."
-Genre.create(name: "Pop")
-Genre.create(name: "Rock")
-Genre.create(name: "R&B/Soul")
-Genre.create(name: "Hip-Hop/Rap")
-Genre.create(name: "Country")
-Genre.create(name: "Dance/Disco")
+Genre.create(name: "Pop and Rock", slug: "pop")
+Genre.create(name: "R&B and Soul", slug: "rb")
+Genre.create(name: "HipHop and Rap", slug: "hiphop")
+Genre.create(name: "Country", slug: "country")
+Genre.create(name: "Dance and Disco", slug: "dance")
 
 # seeding songs
 puts "seeding songs..."

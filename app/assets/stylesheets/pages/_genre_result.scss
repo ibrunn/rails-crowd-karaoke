@@ -9,3 +9,33 @@ h1{
   color: white;
   font-size: 280px;
 }
+
+.game_sessions-genre_result.pop {
+  background-image: linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)), url(/assets/rock.jpg);
+  animation: gradient 120s ease infinite;
+  background-color: black;
+}
+
+.game_sessions-genre_result.rb {
+  background-image: linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)), url(/assets/soul.jpg);
+  animation: gradient 120s ease infinite;
+  background-color: black;
+}
+
+.game_sessions-genre_result.hiphop {
+  background-image: linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)), url(/assets/hiphop.jpg);
+  animation: gradient 120s ease infinite;
+  background-color: black;
+}
+
+.game_sessions-genre_result.country {
+  background-image: linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)), url(/assets/country.jpg);
+  animation: gradient 120s ease infinite;
+  background-color: black;
+}
+
+.game_sessions-genre_result.dance {
+  background-image: linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)), url(/assets/disco.jpg);
+  animation: gradient 120s ease infinite;
+  background-color: black;
+}
