@@ -1,9 +1,36 @@
-<div id="vote-counts">
-  <% session.game_session_songs.each do |song| %>
-    <p>
-      <%= song.song.title %>
-      <%= song.song_votes.sum { |song_vote| song_vote.votes_count } %>
-    </p>
 
-  <% end %>
-</div>
+<% data = session.game_session_songs.map { |gss|
+     [ gss.song.title, gss.song_votes.sum(:votes_count) ]
+  }.to_h %>
+
+<%= bar_chart data,
+
+    # set your desired size:
+    height: "700px",
+    colors: [
+      "#1D2B53", "#7E2553",
+      "#FAEF5D", "#f58231",
+      "#46f0f0", "#bcf60c"
+    ],
+    dataset: {
+      borderWidth:   1,
+      borderColor:   "#fff",
+      borderSkipped: false
+    },
+    library: {
+
+      indexAxis: 'y',                             # :contentReference[oaicite:0]{index=0}
+      scales: {
+
+        x: {
+          grid:   { display: false, drawBorder: false },
+          border: { display: false },
+          ticks:  { font: { size: 0 },  color: "#fff" }
+        },
+        y: {
+          grid:   { display: false, drawBorder: false },
+          border: { display: false },
+          ticks:  { font: { size: 30 }, color: "#fff" }
+        }
+      }
+    } %>
