@@ -1,1 +1,28 @@
-<%= column_chart session.genre_votes.group(:genre).count.transform_keys { |genre| genre.name } %>
+<%= column_chart session.genre_votes
+      .group(:genre)
+      .count
+      .transform_keys { |genre| genre.name },
+    colors: [
+      "#1D2B53", "#7E2553",
+      "#FAEF5D", "#f58231",
+      "#46f0f0", "#bcf60c"
+    ],
+    dataset: {
+      borderWidth:   1,      # thickness in px
+      borderColor:  "#fff",  # white border
+      borderSkipped: false   # draw on all four sides
+    },
+    library: {
+      scales: {
+        x: {
+          grid:   { display: false, drawBorder: false },
+          border: { display: false },
+          ticks:  { font: { size: 30 }, color: "#fff" }
+        },
+        y: {
+          grid:   { display: false, drawBorder: false },
+          border: { display: false },
+          ticks:  { font: { size: 0 },  color: "#fff" }
+        }
+      }
+    } %>
