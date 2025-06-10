@@ -1,4 +1,5 @@
 
+<div id="vote-counts">
 <% data = session.game_session_songs.map { |gss|
      [ gss.song.title, gss.song_votes.sum(:votes_count) ]
   }.to_h %>
@@ -34,3 +35,5 @@
         }
       }
     } %>
+
+</div>
