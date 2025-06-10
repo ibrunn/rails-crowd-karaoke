@@ -17,6 +17,8 @@ class GameSession < ApplicationRecord
             presence: true,
             inclusion: { in: [0, 1, 2, 3, 35, 4, 5, 55, 6, 7, 8] }
 
+validates_length_of :game_session_songs, maximum: 4
+
   private
 
   def generate_uuid
