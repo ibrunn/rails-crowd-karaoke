@@ -54,6 +54,8 @@ class GameSessionsController < ApplicationController
   end
 
   def song_result
+    # Determine the winning song for the current session
+    @winning_song = find_winning_song
   end
 
   def sing_start
@@ -208,7 +210,7 @@ class GameSessionsController < ApplicationController
 
   def store_session_songs(genre)
     return unless @session.user == current_user
-    
+
     # Clear any existing songs for this session
     @session.game_session_songs.destroy_all
 
@@ -224,6 +226,23 @@ class GameSessionsController < ApplicationController
     @selected_songs = selected_songs
 
     Rails.logger.info "Selected #{selected_songs.count} songs from genre '#{genre.name}' for session #{@session.uuid}"
+  end
+
+  def find_winning_song
+  # Get all guests for this session
+  guest_ids = @session.guests.pluck(:id)
+
+  # Return nil if no guests
+  return nil if guest_ids.empty?
+
+  # Find the game_session_song with the highest total votes from this session's guests
+  @session.game_session_songs
+          .joins(:song_votes)
+          .where(song_votes: { guest_id: guest_ids })
+          .group('game_session_songs.id')
+          .order('SUM(song_votes.votes_count) DESC')
+          .includes(:song)
+          .first
   end
 
 end
