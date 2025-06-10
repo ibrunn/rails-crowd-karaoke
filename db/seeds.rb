@@ -7,29 +7,29 @@ Genre.destroy_all
 
 # seeding music genres
 puts "seeding music genres..."
-Genre.create(name: "Pop and Rock", slug: "pop")
-Genre.create(name: "R&B and Soul", slug: "rb")
-Genre.create(name: "HipHop and Rap", slug: "hiphop")
-Genre.create(name: "Country", slug: "country")
-Genre.create(name: "Dance and Disco", slug: "dance")
+genre1 = Genre.create(name: "Pop and Rock", slug: "pop")
+genre2 = Genre.create(name: "R&B and Soul", slug: "rb")
+genre3 = Genre.create(name: "HipHop and Rap", slug: "hiphop")
+genre4 = Genre.create(name: "Country", slug: "country")
+genre5 = Genre.create(name: "Dance and Disco", slug: "dance")
 
 # seeding songs
 puts "seeding songs..."
-Song.create(title: "Someone Like You", artist: "Adele", year: 2022, lyrics_lrc: "", youtube_url: "https://www.youtube.com/watch?v=hLQl3WQQoQ0&list=RDQM-VGbWUBinoA&index=2", genre_id: 1)
-Song.create(title: "Hello", artist: "Adele", year: 2015, lyrics_lrc: "", youtube_url: "https://www.youtube.com/watch?v=YQHsXMglC9A", genre_id: 1)
-Song.create(title: "Easy On Me", artist: "Adele", year: 2021, lyrics_lrc: "", youtube_url: "https://www.youtube.com/watch?v=X-yIEMduRXk&list=RDQM-VGbWUBinoA&start_radio=1", genre_id: 1)
-Song.create(title: "Skyfall", artist: "Adele", year: 2012, lyrics_lrc: "", youtube_url: "https://www.youtube.com/watch?v=DeumyOzKqgI", genre_id: 1)
-Song.create(title: "Love In The Dark", artist: "Adele", year: 2029, lyrics_lrc: "", youtube_url: "https://www.youtube.com/watch?v=-hzFTJDJGkQ", genre_id: 1)
-Song.create(title: "Shake It Off", artist: "Taylor Swift", year: 2014, lyrics_lrc: "", youtube_url: "https://www.youtube.com/watch?v=nfWlot6h_JM", genre_id: 1)
-Song.create(title: "Blank Space", artist: "Taylor Swift", year: 2014, lyrics_lrc: "", youtube_url: "https://www.youtube.com/watch?v=e-ORhEE9VVg", genre_id: 1)
-Song.create(title: "Love Story", artist: "Taylor Swift", year: 2028, lyrics_lrc: "", youtube_url: "https://www.youtube.com/watch?v=8xg3vE8Ie_E", genre_id: 1)
-Song.create(title: "You Belong With Me", artist: "Taylor Swift", year: 2009, lyrics_lrc: "", youtube_url: "https://www.youtube.com/watch?v=VuNIsY6JdUw", genre_id: 1)
-Song.create(title: "Lover", artist: "Taylor Swift", year: 2020, lyrics_lrc: "", youtube_url: "https://www.youtube.com/watch?v=-BjZmE2gtdo", genre_id: 1)
-Song.create(title: "New Rules", artist: "Dua Lipa", year: 2027, lyrics_lrc: "", youtube_url: "https://www.youtube.com/watch?v=k2qgadSvNyU", genre_id: 1)
-Song.create(title: "Levitating", artist: "Dua Lipa", year: 2020, lyrics_lrc: "", youtube_url: "https://www.youtube.com/watch?v=TUVcZfQe-Kw", genre_id: 1)
-Song.create(title: "Don’t Start Now", artist: "Dua Lipa", year: 2019, lyrics_lrc: "", youtube_url: "https://www.youtube.com/watch?v=oygrmJFKYZY", genre_id: 1)
-Song.create(title: "IDGAF", artist: "Dua Lipa", year: 2018, lyrics_lrc: "", youtube_url: "https://www.youtube.com/watch?v=Mgfe5tIwOj0", genre_id: 1)
-Song.create(title: "One Kiss", artist: "Dua Lipa", year: 2028, lyrics_lrc: "", youtube_url: "https://www.youtube.com/watch?v=DkeiKbqa02g", genre_id: 1)
+Song.create(title: "Someone Like You", artist: "Adele", year: 2022, lyrics_lrc: "", youtube_url: "https://www.youtube.com/watch?v=hLQl3WQQoQ0&list=RDQM-VGbWUBinoA&index=2", genre_id: genre1.id)
+Song.create(title: "Hello", artist: "Adele", year: 2015, lyrics_lrc: "", youtube_url: "https://www.youtube.com/watch?v=YQHsXMglC9A", genre_id: genre1.id)
+Song.create(title: "Easy On Me", artist: "Adele", year: 2021, lyrics_lrc: "", youtube_url: "https://www.youtube.com/watch?v=X-yIEMduRXk&list=RDQM-VGbWUBinoA&start_radio=1", genre_id: genre1.id)
+Song.create(title: "Skyfall", artist: "Adele", year: 2012, lyrics_lrc: "", youtube_url: "https://www.youtube.com/watch?v=DeumyOzKqgI", genre_id: genre1.id)
+Song.create(title: "Love In The Dark", artist: "Adele", year: 2029, lyrics_lrc: "", youtube_url: "https://www.youtube.com/watch?v=-hzFTJDJGkQ", genre_id: genre2.id)
+Song.create(title: "Shake It Off", artist: "Taylor Swift", year: 2014, lyrics_lrc: "", youtube_url: "https://www.youtube.com/watch?v=nfWlot6h_JM", genre_id: genre2.id)
+Song.create(title: "Blank Space", artist: "Taylor Swift", year: 2014, lyrics_lrc: "", youtube_url: "https://www.youtube.com/watch?v=e-ORhEE9VVg", genre_id: genre2.id)
+Song.create(title: "Love Story", artist: "Taylor Swift", year: 2028, lyrics_lrc: "", youtube_url: "https://www.youtube.com/watch?v=8xg3vE8Ie_E", genre_id: genre2.id)
+Song.create(title: "You Belong With Me", artist: "Taylor Swift", year: 2009, lyrics_lrc: "", youtube_url: "https://www.youtube.com/watch?v=VuNIsY6JdUw", genre_id: genre3.id)
+Song.create(title: "Lover", artist: "Taylor Swift", year: 2020, lyrics_lrc: "", youtube_url: "https://www.youtube.com/watch?v=-BjZmE2gtdo", genre_id: genre3.id)
+Song.create(title: "New Rules", artist: "Dua Lipa", year: 2027, lyrics_lrc: "", youtube_url: "https://www.youtube.com/watch?v=k2qgadSvNyU", genre_id: genre3).id
+Song.create(title: "Levitating", artist: "Dua Lipa", year: 2020, lyrics_lrc: "", youtube_url: "https://www.youtube.com/watch?v=TUVcZfQe-Kw", genre_id: genre3.id)
+Song.create(title: "Don’t Start Now", artist: "Dua Lipa", year: 2019, lyrics_lrc: "", youtube_url: "https://www.youtube.com/watch?v=oygrmJFKYZY", genre_id: genre4.id)
+Song.create(title: "IDGAF", artist: "Dua Lipa", year: 2018, lyrics_lrc: "", youtube_url: "https://www.youtube.com/watch?v=Mgfe5tIwOj0", genre_id: genre4.id)
+Song.create(title: "One Kiss", artist: "Dua Lipa", year: 2028, lyrics_lrc: "", youtube_url: "https://www.youtube.com/watch?v=DkeiKbqa02g", genre_id: genre5.id)
 
 # other seed items
 

@@ -15,22 +15,16 @@
 <div class="container">
 
   <h1>Let’s sing</h1>
-  <h1>Dancing Queen</h1>
-  <h1>ABBA</h1>
-  <button type="button" class="btn btn btn-outline-light goto_bt">Go!</button>
-
-
+  <h1 class="warning"><%= @winning_song.title %></h1>
+  <p>by</p>
+  <h1 class="warning"><%= @winning_song.artist %></h1>
 
   <% if @session.user == current_user %>
-    <h1>
-      <%= render 'shared/countdown',
-          duration: 10,
-          session: @session,
-          next_stage: 8.0,
-          auto_advance: true %>
-    </h1>
-  <% else %>
-    <h1><span id="countdown-10"></span></h1>
+    <div id="play-button-host" class="my-5 pb-5">
+      <%= render 'play_button', session: @session, can_start: @winning_song, style: "btn btn-outline-light goto_bt" %>
+    </div>
+
+    <button type="button" class="btn btn btn-outline-light goto_bt">Start a new session</button>
   <% end %>
 
 </div>
