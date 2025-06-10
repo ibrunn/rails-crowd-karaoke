@@ -1,5 +1,5 @@
 <!--
-  HOST AND GUEST
+  GUEST
   STAGE 5
   get "/sessions/:uuid/song_votes/new", to: "song_votes#new", as: :new_song_votes
   post "/sessions/:uuid/song_votes", to: "song_votes#create", as: :create_song_votes
@@ -12,31 +12,34 @@
 
 
 <div class="container">
-
   <h1>Tap as fast as you can!</h1>
 
-  <div class="row">
-    <div class="col song-block">
-      <p >Song 1</p>
-      <p >Artist 1</p>
-    </div>
-    <div class="col song-block">
-      <p>Song 2</p>
-      <p >Artist 2</p>
-    </div>
-  </div>
+  <% if @session.game_session_songs.any? %>
+    <div class="voting-area">
+      <% @session.game_session_songs.includes(:song).each do |game_session_song| %>
+        <div class="song-tile mb-3"
+             data-controller="song-vote"
+             data-song-vote-session-uuid-value="<%= @session.uuid %>"
+             data-song-vote-game-session-song-id-value="<%= game_session_song.id %>">
 
-  <div class="row">
-    <div class="col song-block">
-      <p>Song 3</p>
-      <p >Artist 3</p>
-    </div>
-    <div class="col song-block">
-      <p>Song 4</p>
-      <p >Artist 4</p>
-    </div>
-  </div>
+          <div class="card category-item"
+               data-action="click->song-vote#vote"
+               style="cursor: pointer; transition: all 0.2s;">
 
+            <div class="card-body text-center song-block">
+              <h5 class="card-title"><%= game_session_song.song.title %></h5>
+              <p class="card-text text-muted"><%= game_session_song.song.artist %></p>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+  <% else %>
+    <div class="text-center">
+      <p class="text-warning">No songs available for voting yet.</p>
+    </div>
+  <% end %>
 
   <h1><span id="countdown-20"></span></h1>
 

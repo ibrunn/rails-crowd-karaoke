@@ -5,10 +5,10 @@ class GameSessionsController < ApplicationController
                                               :start_game, :advance_to_stage, :advance_stage_handler]
   before_action :set_session, only: [:show, :green_room, :genre_start, :genre_result,
                                      :song_start, :song_result, :sing_start, :sing_end, :singing,
-                                     :start_game, :advance_to_stage, :advance_stage_handler, :genre_stats]
+                                     :start_game, :advance_to_stage, :advance_stage_handler, :genre_stats, :song_stats]
   before_action :verify_host_or_guest, only: [:show, :green_room, :genre_start, :genre_result,
                                               :song_start, :song_result, :sing_start, :sing_end, :singing,
-                                              :start_game, :advance_to_stage, :advance_stage_handler]
+                                              :start_game, :advance_to_stage, :advance_stage_handler, :song_stats]
 
   def create
     @session = GameSession.create(
@@ -34,6 +34,17 @@ class GameSessionsController < ApplicationController
   end
 
   def genre_result
+    # 1. Determine the winning genre for the current session
+    @winning_genre = find_winning_genre
+
+    # 2. Pick 4 random songs from the winning genre and store them
+    if @winning_genre
+      store_session_songs(@winning_genre)
+    else
+      # Fallback: pick a random genre if no votes exist
+      @winning_genre = Genre.order('RANDOM()').first
+      store_session_songs(@winning_genre) if @winning_genre
+    end
   end
 
   def song_start
@@ -179,4 +190,38 @@ class GameSessionsController < ApplicationController
 
     valid_transitions[current]&.include?(new)
   end
+
+  def find_winning_genre
+    # Get all guests for this session
+    guest_ids = @session.guests.pluck(:id)
+
+    # Return nil if no guests
+    return nil if guest_ids.empty?
+
+    # Find the genre with the most votes from this session's guests
+    Genre.joins(:genre_votes)
+        .where(genre_votes: { guest_id: guest_ids })
+        .group('genres.id')
+        .order('COUNT(genre_votes.id) DESC')
+        .first
+  end
+
+  def store_session_songs(genre)
+    # Clear any existing songs for this session
+    @session.game_session_songs.destroy_all
+
+    # Get 4 random songs from the winning genre
+    selected_songs = genre.songs.order('RANDOM()').limit(4)
+
+    # Create game_session_songs records
+    selected_songs.each do |song|
+      @session.game_session_songs.create!(song: song)
+    end
+
+    # Make selected songs accessible to the view
+    @selected_songs = selected_songs
+
+    Rails.logger.info "Selected #{selected_songs.count} songs from genre '#{genre.name}' for session #{@session.uuid}"
+  end
+
 end
