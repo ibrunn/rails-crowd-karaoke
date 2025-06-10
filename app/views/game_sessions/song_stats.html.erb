@@ -8,7 +8,6 @@
  -->
 
 <%= turbo_stream_from "game_session_#{@session.uuid}_host" if @session.user == current_user %>
-<%# <%= turbo_stream_from "genre_stats_for_#{@session.id}" %>
 
 <div class="container">
 

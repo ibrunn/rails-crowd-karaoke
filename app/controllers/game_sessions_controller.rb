@@ -65,6 +65,7 @@ class GameSessionsController < ApplicationController
   end
 
   def sing_start
+    @winning_song = find_winning_song
   end
 
   def singing
@@ -191,9 +192,7 @@ class GameSessionsController < ApplicationController
       4.0 => [5.0],   # Song start → Song voting
       5.0 => [55.0],   # Song voting → Song result
       55.0 => [6.0],   # Song result → Sing start
-      6.0 => [7.0],   # Sing start → Singing
-      7.0 => [8.0],   # Singing → Sing end
-      8.0 => [1.0]    # Sing end → back to Green room
+      6.0 => [1.0],   # Sing start → Singing
     }
 
     valid_transitions[current]&.include?(new)
@@ -253,5 +252,5 @@ class GameSessionsController < ApplicationController
     # Return the actual Song instance (not GameSessionSong)
     winning_game_session_song&.song
   end
-  
+
 end

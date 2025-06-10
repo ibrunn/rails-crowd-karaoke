@@ -11,13 +11,7 @@ h1{
 }
 
 .game_sessions-genre_result.pop {
-  background-image: linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)), url(/assets/rock.jpg);
-  animation: gradient 120s ease infinite;
-  background-color: black;
-}
-
-.game_sessions-genre_result.rb {
-  background-image: linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)), url(/assets/soul.jpg);
+  background-image: linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)), url(/assets/pop.jpg);
   animation: gradient 120s ease infinite;
   background-color: black;
 }
@@ -28,8 +22,14 @@ h1{
   background-color: black;
 }
 
-.game_sessions-genre_result.country {
-  background-image: linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)), url(/assets/country.jpg);
+.game_sessions-genre_result.rock {
+  background-image: linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)), url(/assets/rock.jpg);
+  animation: gradient 120s ease infinite;
+  background-color: black;
+}
+
+.game_sessions-genre_result.rb {
+  background-image: linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)), url(/assets/soul.jpg);
   animation: gradient 120s ease infinite;
   background-color: black;
 }
