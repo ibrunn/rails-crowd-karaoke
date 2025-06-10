@@ -13,5 +13,16 @@
 
 
 
+  <% if @session.user == current_user %>
+    <h1>
+      <%= render 'shared/countdown',
+          duration: 10,
+          session: @session,
+          next_stage: 1.0,
+          auto_advance: true %>
+    </h1>
+  <% else %>
+    <h1><span id="countdown-10"></span></h1>
+  <% end %>
 
 <%# <%= render 'shared/debug_stage_nav' %>
