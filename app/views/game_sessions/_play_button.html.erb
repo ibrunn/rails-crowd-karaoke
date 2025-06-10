@@ -1,0 +1,13 @@
+<% session_obj = local_assigns[:session] || @session %>
+<% can_start = local_assigns[:can_start] || false %>
+
+<% if can_start %>
+  <%= button_to "LET'S SING!",
+                start_game_path(uuid: session_obj.uuid),
+                method: :post,
+                class: "btn btn-outline-light goto_bt" %>
+<% else %>
+  <button class="btn btn-outline-light goto_bt" disabled>
+    Fetching YouTube
+  </button>
+<% end %>
