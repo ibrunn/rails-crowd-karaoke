@@ -13,7 +13,7 @@
 
 <div class="container">
 
-  <h1>Choose your favorite genre</h1>
+  <h1>What’s your jam? 🎧</h1>
 
     <%= simple_form_for [@session.uuid, @genre_vote], url: game_session_genre_votes_path(@session.uuid, @genre_vote), html: { data: { controller: "form-submission" }} do |f| %>
       <div class="row">

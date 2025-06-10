@@ -2,12 +2,12 @@
 <% can_start = local_assigns[:can_start] || false %>
 
 <% if can_start %>
-  <%= button_to "NEW ROUND",
+  <%= button_to "Start a New Jam Session 🎶",
                 advance_stage_path(uuid: session_obj.uuid, stage: 1.0),
                 method: :get,
                 class: "btn btn-outline-light goto_bt" %>
 <% else %>
   <button class="btn btn-outline-light goto_bt" disabled>
-    NEW ROUND
+    Start a New Jam Session 🎶
   </button>
 <% end %>
