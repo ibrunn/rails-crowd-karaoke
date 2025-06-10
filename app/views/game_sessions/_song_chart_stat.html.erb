@@ -1,1 +1,9 @@
-<%= column_chart session.genre_votes.group(:genre).count.transform_keys { |genre| genre.name } %>
+<div id="vote-counts">
+  <% session.game_session_songs.each do |song| %>
+    <p>
+      <%= song.song.title %>
+      <%= song.song_votes.sum { |song_vote| song_vote.votes_count } %>
+    </p>
+
+  <% end %>
+</div>

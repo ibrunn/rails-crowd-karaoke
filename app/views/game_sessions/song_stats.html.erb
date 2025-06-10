@@ -8,15 +8,13 @@
  -->
 
 <%= turbo_stream_from "game_session_#{@session.uuid}_host" if @session.user == current_user %>
-<%= turbo_stream_from "genre_stats_for_#{@session.id}" %>
+<%# <%= turbo_stream_from "genre_stats_for_#{@session.id}" %>
 
 <div class="container">
 
-  <h1>Pick your favorite music genre!</h1>
+  <h1>What song is making the race?</h1>
 
-  <div id="stats">
-    <%= render "genre_chart_stat", session: @session %>
-  </div>
+  <%= render "song_chart_stat", session: @session %>
 
   <h1>
     <%= render 'shared/countdown',
