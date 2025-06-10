@@ -34,6 +34,8 @@ class GameSessionsController < ApplicationController
   end
 
   def genre_result
+
+    
   end
 
   def song_start
