@@ -3,6 +3,7 @@ class GameSessionSong < ApplicationRecord
   belongs_to :song
 
   has_many :song_votes, dependent: :destroy
+  validates_associated :game_session
 
   # Method to display song info in the form
   def song_display_name

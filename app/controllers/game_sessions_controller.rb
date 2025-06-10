@@ -207,6 +207,8 @@ class GameSessionsController < ApplicationController
   end
 
   def store_session_songs(genre)
+    return unless @session.user == current_user
+    
     # Clear any existing songs for this session
     @session.game_session_songs.destroy_all
 
