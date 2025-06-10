@@ -9,3 +9,9 @@ h1{
   color: white;
   font-size: 280px;
 }
+
+.game_sessions-genre_result {
+  background-image: linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)), url(/assets/rock.jpg);
+  animation: gradient 120s ease infinite;
+  background-color: black;
+}
