@@ -13,16 +13,21 @@
 
 
 <div class="container">
+
   <h1>You have waited long enough!</h1>
   <p>Let’s start easy: Get ready to choose your favorite music genre</P>
 
-  <h1>
-    <%= render 'shared/countdown',
-        duration: 10,
-        session: @session,
-        next_stage: 3.0,
-        auto_advance: true %>
-  </h1>
+  <% if @session.user == current_user %>
+    <h1>
+      <%= render 'shared/countdown',
+          duration: 10,
+          session: @session,
+          next_stage: 3.0,
+          auto_advance: true %>
+    </h1>
+  <% else %>
+    <h1><span id="countdown-10"></span></h1>
+  <% end %>
 
 </div>
 
