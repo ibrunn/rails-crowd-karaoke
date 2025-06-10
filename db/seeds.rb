@@ -7,11 +7,10 @@ Genre.destroy_all
 
 # seeding music genres
 puts "seeding music genres..."
-genre1 = Genre.create(name: "Pop and Rock", slug: "pop")
-genre2 = Genre.create(name: "R&B and Soul", slug: "rb")
-genre3 = Genre.create(name: "HipHop and Rap", slug: "hiphop")
-genre4 = Genre.create(name: "Country", slug: "country")
-genre5 = Genre.create(name: "Dance and Disco", slug: "dance")
+genre1 = Genre.create(name: "Pop & Dance", slug: "pop")
+genre2 = Genre.create(name: "Hip-Hop / Rap", slug: "hiphop")
+genre3 = Genre.create(name: "Rock", slug: "rock")
+genre4 = Genre.create(name: "R&B / Soul", slug: "rb")
 
 # seeding songs
 puts "seeding songs..."
@@ -29,9 +28,9 @@ Song.create(title: "New Rules", artist: "Dua Lipa", year: 2027, lyrics_lrc: "", 
 Song.create(title: "Levitating", artist: "Dua Lipa", year: 2020, lyrics_lrc: "", youtube_url: "https://www.youtube.com/watch?v=TUVcZfQe-Kw", genre_id: genre3.id)
 Song.create(title: "Don’t Start Now", artist: "Dua Lipa", year: 2019, lyrics_lrc: "", youtube_url: "https://www.youtube.com/watch?v=oygrmJFKYZY", genre_id: genre4.id)
 Song.create(title: "IDGAF", artist: "Dua Lipa", year: 2018, lyrics_lrc: "", youtube_url: "https://www.youtube.com/watch?v=Mgfe5tIwOj0", genre_id: genre4.id)
-Song.create(title: "One Kiss", artist: "Dua Lipa", year: 2028, lyrics_lrc: "", youtube_url: "https://www.youtube.com/watch?v=DkeiKbqa02g", genre_id: genre5.id)
+Song.create(title: "One Kiss", artist: "Dua Lipa", year: 2028, lyrics_lrc: "", youtube_url: "https://www.youtube.com/watch?v=DkeiKbqa02g", genre_id: genre4.id)
 
 # other seed items
 
 # user feedback
-puts "seeded #{Genre.count} genres, #{Song.count} songs, "
+puts "seeded #{Genre.count} genres and #{Song.count} songs."
