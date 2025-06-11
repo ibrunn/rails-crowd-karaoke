@@ -5,9 +5,9 @@
   <%= button_to "Start a New Jam Session 🎶",
                 advance_stage_path(uuid: session_obj.uuid, stage: 1.0),
                 method: :get,
-                class: "btn btn-outline-light goto_bt" %>
+                class: "btn btn-outline-light goto_bt-home" %>
 <% else %>
-  <button class="btn btn-outline-light goto_bt" disabled>
+  <button class="btn btn-outline-light goto_bt-home" disabled>
     Start a New Jam Session 🎶
   </button>
 <% end %>

@@ -21,11 +21,11 @@
 
   <% if @session.user == current_user %>
     <div id="play-button-host" class="my-5 pb-5">
-      <%= render 'play_button', session: @session, can_start: true, song: @winning_song, style: "btn btn-outline-light goto_bt" %>
+      <%= render 'play_button', session: @session, can_start: true, song: @winning_song, style: "btn btn-light goto_bt" %>
     </div>
 
     <div id="home-button-host" class="my-5 pb-5">
-      <%= render 'home_button', session: @session, can_start: true, style: "btn btn-outline-light goto_bt" %>
+      <%= render 'home_button', session: @session, can_start: true %>
     </div>
   <% end %>
 
