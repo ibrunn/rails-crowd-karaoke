@@ -90,8 +90,7 @@ class GameSessionsController < ApplicationController
     # game_session_songs, song_votes, genre_votes
     # only clean records belonging to this very @session
     @session.game_session_songs.destroy_all
-    @session.song_votes.destroy_all
-    @session.genre_votes.destroy_all
+    GenreVote.joins(:guest).where(guests: { game_session: @session }).destroy_all
 
     advance_to_stage(2.0)
   end

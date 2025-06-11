@@ -3,7 +3,7 @@
 <% can_start = local_assigns[:can_start] || false %>
 
 <% if can_start %>
-  <%= link_to "Let’s Karaoke! 🚀",
+  <%= link_to "#{song_obj.title} 🚀 #{song_obj.artist}",
       song_obj.youtube_url,
       target: "_blank",
       rel: "noopener noreferrer",
