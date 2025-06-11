@@ -8,9 +8,9 @@ Genre.destroy_all
 # seeding music genres
 puts "seeding music genres..."
 genre1 = Genre.create(name: "Pop & Dance", slug: "pop")
-genre2 = Genre.create(name: "Hip-Hop / Rap", slug: "hiphop")
+genre2 = Genre.create(name: "Hip-Hop & Rap", slug: "hiphop")
 genre3 = Genre.create(name: "Rock", slug: "rock")
-genre4 = Genre.create(name: "R&B / Soul", slug: "rb")
+genre4 = Genre.create(name: "R&B & Soul", slug: "rb")
 
 # seeding songs
 puts "seeding songs..."
