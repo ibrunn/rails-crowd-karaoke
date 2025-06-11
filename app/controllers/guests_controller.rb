@@ -67,14 +67,14 @@ class GuestsController < ApplicationController
     # Update guest interfaces
     Turbo::StreamsChannel.broadcast_update_to(
       "game_session_#{@session.uuid}_guest",
-      target: "guest-list",
+      target: "guest-list-guest",
       partial: "game_sessions/guest_list",
       locals: { session: @session }
       )
 
     Turbo::StreamsChannel.broadcast_update_to(
       "game_session_#{@session.uuid}_guest",
-      target: "guest-count",
+      target: "guest-count-guest",
       partial: "game_sessions/guest_count",
       locals: { session: @session }
       )
