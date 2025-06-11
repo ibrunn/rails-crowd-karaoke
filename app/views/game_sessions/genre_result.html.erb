@@ -15,7 +15,7 @@
 <div class="container">
 
   <h1>Alright party animals, we've got our genre locked and loaded!</h1>
-  <h2>Tonight’s vibe:</h2>
+  <h1>Tonight’s vibe:</h1>
   <h1 class="genre-selected"><%= @winning_genre.name %></h1>
 
   <!-- <button type="button" class="btn btn btn-outline-light goto_bt">Start!</button> -->
@@ -24,13 +24,13 @@
   <% if @session.user == current_user %>
     <h1>
       <%= render 'shared/countdown',
-          duration: 10,
+          duration: 15,
           session: @session,
           next_stage: 4.0,
           auto_advance: true %>
     </h1>
   <% else %>
-    <h1><span id="countdown-10"></span></h1>
+    <h1><span id="countdown-15"></span></h1>
   <% end %>
 
 </div>

@@ -40,7 +40,7 @@ class GuestsController < ApplicationController
       return false
     end
 
-    if @session.guests.count >= 25
+    if @session.guests.count >= 50
       redirect_to root_path, alert: "This session is full."
       return false
     end

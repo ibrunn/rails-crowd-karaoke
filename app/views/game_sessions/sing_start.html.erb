@@ -16,12 +16,12 @@
 
   <h1>Mic check, party people! 🎤</h1>
 
+  <p><%= @winning_song.title %></p>
+  <p><%= @winning_song.artist %></p>
+
   <p>
     The karaoke train is about to leave the station. Get ready to bring the house down!
   </p>
-
-  <p><%= @winning_song.title %></p>
-  <p><%= @winning_song.artist %></p>
 
   <% if @session.user == current_user %>
     <div id="play-button-host" class="my-5 pb-5">
