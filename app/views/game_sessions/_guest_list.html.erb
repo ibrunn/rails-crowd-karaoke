@@ -3,8 +3,8 @@
 <% if session_obj && session_obj.respond_to?(:guests) && session_obj.guests.any? %>
   <div id="guests-box" class="overflow-auto">
     <% session_obj.guests.order(:created_at).each do |guest| %>
-      <div class="">
-        <p class="guests-list-p"><%= guest.nickname %></p>
+      <div class="guests-list-container">
+        <div class="guests-list-p"><%= guest.nickname %></div>
       </div>
     <% end %>
   </div>

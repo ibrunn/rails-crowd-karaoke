@@ -7,13 +7,24 @@
 }
 
 .guests-list-p{
-    font-size:24px;
-    text-align:center;
-    margin: 0;
+    font-size: 24px;
+    text-align: center;
+    border: 1px solid;
+    border-radius: 23px;
+    border-color: #f0f8ff3b;
+    background-color: #00000017;
+    color: whitesmoke;
+    padding: 13px;
+    width: fit-content;
 }
 .subtitle-new-guests{
   margin-top: 53px;
   margin-bottom: 18px !important;
   color: whitesmoke;
   font-weight: lighter;
+}
+
+.guests-list-container{
+
+  text-align: -webkit-center;
 }
