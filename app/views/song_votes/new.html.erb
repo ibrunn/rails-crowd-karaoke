@@ -12,7 +12,11 @@
 
 
 <div class="container">
-  <h1>Tap like your karaoke reputation depends on it.</h1>
+
+  <div class="mb-5">
+  <p class="song-votes-top-title">Tap like your karaoke reputation depends on it.</p>
+  </div>
+
 
   <% if @session.game_session_songs.any? %>
     <div class="voting-area">
@@ -22,13 +26,14 @@
              data-song-vote-session-uuid-value="<%= @session.uuid %>"
              data-song-vote-game-session-song-id-value="<%= game_session_song.id %>">
 
-          <div class="card category-item"
+          <div class="card  card-radius-15"
                data-action="click->song-vote#vote"
                style="cursor: pointer; transition: all 0.2s;">
 
-            <div class="card-body text-center song-block">
-              <h5 class="card-title"><%= game_session_song.song.title %></h5>
-              <p class="card-text text-muted"><%= game_session_song.song.artist %></p>
+            <div class=" text-center ">
+              <p class="card-text card-title-balck"><%=  game_session_song.song.title %></p>
+              <h5 class="card-title card-artist-gray"> <%= game_session_song.song.artist %></h5>
+
             </div>
           </div>
         </div>
@@ -41,7 +46,10 @@
     </div>
   <% end %>
 
-  <h1><span id="countdown-20"></span></h1>
+
+
+
+<h1><span id="countdown-20"></span></h1>
 
 </div>
 
