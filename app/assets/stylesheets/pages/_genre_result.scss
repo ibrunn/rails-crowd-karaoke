@@ -7,7 +7,14 @@ h1{
 
 .genre-selected{
   color: white;
-  font-size: 280px;
+  font-size: 180px;
+}
+
+@media only screen and (max-width: 576px) {
+  .genre-selected{
+  color: white;
+  font-size: 80px;
+}
 }
 
 .game_sessions-genre_result.pop {
