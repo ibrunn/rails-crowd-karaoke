@@ -1,10 +1,11 @@
 <%= turbo_stream_from "game_session_#{@session.uuid}_guest" if current_guest_for_session %>
 
 
-<div class="container">
+<div class="container text-center">
 
   <h1>Pick a nickname, superstar!</h1>
-  <p>Make it spicy — this is how the crowd will remember (or roast) you.</p>
+
+  <h4 class="subtitle-new-guests" >Make it spicy — this is how the crowd will remember (or roast) you.</h4>
 
   <%= form_with model: @guest,
                 url: create_guest_path,
@@ -15,7 +16,7 @@
                         class: "form-control form-control-lg",
                         placeholder: "Ariana Not-So-Grande",
                         required: true %>
-    <%= form.submit "Let's Do This!", class: "btn btn btn-outline-light goto_bt mt-5" %>
+    <%= form.submit "Let's Do This!", class: "btn btn btn-light goto_bt mt-5" %>
   <% end %>
 
 </div>
