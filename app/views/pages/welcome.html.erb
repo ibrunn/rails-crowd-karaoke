@@ -14,7 +14,7 @@
 
   <p class="my-5">
     Time to turn your living room into the hottest (and most chaotic) karaoke bar in town.
-    <br><span style="color: #FAEF5D; font-weight: bold;"><%= current_user.name.upcase %></span>, fire up a new game and let's see what your guests are made of! 🎤🔥
+    <br><span style="color: #FAEF5D; font-weight: bold;"><%= current_user.name.upcase if current_user %></span>, fire up a new game and let's see what your guests are made of! 🎤🔥
   </p>
 
   <%= button_to "Start the Chaos!",
