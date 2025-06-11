@@ -11,31 +11,31 @@ h1{
 }
 
 .game_sessions-genre_result.pop {
-  background-image: linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)), url(/assets/pop.jpg);
+  background-image: linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)), asset_url("pop.jpg");
   animation: gradient 120s ease infinite;
   background-color: black;
 }
 
 .game_sessions-genre_result.hiphop {
-  background-image: linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)), url(/assets/hiphop.jpg);
+  background-image: linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)), asset_url("hiphop.jpg");
   animation: gradient 120s ease infinite;
   background-color: black;
 }
 
 .game_sessions-genre_result.rock {
-  background-image: linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)), url(/assets/rock.jpg);
+  background-image: linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)), asset_url("rock.jpg");
   animation: gradient 120s ease infinite;
   background-color: black;
 }
 
 .game_sessions-genre_result.rb {
-  background-image: linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)), url(/assets/soul.jpg);
+  background-image: linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)), asset_url("soul.jpg");
   animation: gradient 120s ease infinite;
   background-color: black;
 }
 
 .game_sessions-genre_result.dance {
-  background-image: linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)), url(/assets/disco.jpg);
+  background-image: linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)), asset_url("disco.jpg");
   animation: gradient 120s ease infinite;
   background-color: black;
 }
